@@ -23,6 +23,7 @@ import "../../../../assets/scss/pages/users.scss";
 import { Route } from "react-router-dom";
 import Breadcrumbs from "../../../../components/@vuexy/breadCrumbs/BreadCrumb";
 import ReactHtmlParser from "react-html-parser";
+import Swal from "sweetalert2";
 class Subcategorylist extends React.Component {
   state = {
     rowData: [],
@@ -40,7 +41,7 @@ class Subcategorylist extends React.Component {
         headerName: "S.No",
         valueGetter: "node.rowIndex + 1",
         field: "node.rowIndex + 1",
-        width: 100,
+        width: 130,
         filter: true,
         // checkboxSelection: true,
         // headerCheckboxSelectionFilteredOnly: true,
@@ -54,11 +55,11 @@ class Subcategorylist extends React.Component {
         headerName: "Category Name",
         field: "name",
         filter: true,
-        width: 200,
+        width: 250,
         cellRendererFramework: (params) => {
           return (
             <div>
-              <span>abcd</span>
+            <span>{params.data?.category}</span>
             </div>
           );
         },
@@ -67,11 +68,11 @@ class Subcategorylist extends React.Component {
         headerName: " Sub-Category Name",
         field: "name",
         filter: true,
-        width:200,
+        width:250,
         cellRendererFramework: (params) => {
           return (
             <div>
-              <span>demo</span>
+            <span>{params.data?.subCategory}</span>
             </div>
           );
         },
@@ -80,29 +81,29 @@ class Subcategorylist extends React.Component {
         headerName: "Description",
         field: "desc",
         filter: true,
-        width: 200,
+        width: 250,
         cellRendererFramework: (params) => {
           return (
             <div className="d-flex align-items-center cursor-pointer">
-              <span>dummy data</span>
+            <span>{params.data?.description}</span>
             </div>
           );
         },
       },
 
-      {
-        headerName: "Status",
-        field: "status",
-        filter: true,
-        width: 150,
-        cellRendererFramework: (params) => {
-          return (
-            <div className="d-flex align-items-center cursor-pointer">
-              <span>Active</span>
-            </div>
-          );
-        },
-      },
+      // {
+      //   headerName: "Status",
+      //   field: "status",
+      //   filter: true,
+      //   width: 150,
+      //   cellRendererFramework: (params) => {
+      //     return (
+      //       <div className="d-flex align-items-center cursor-pointer">
+      //       <span>{params.data?.status}</span>
+      //       </div>
+      //     );
+      //   },
+      // },
 
       {
         headerName: "Action",
@@ -144,9 +145,7 @@ class Subcategorylist extends React.Component {
                 size="25px"
                 color="red"
                 onClick={() => {
-                  let selectedData = this.gridApi.getSelectedRows();
                   this.runthisfunction(params.data._id);
-                  this.gridApi.updateRowData({ remove: selectedData });
                 }}
               />
             </div>
@@ -158,23 +157,41 @@ class Subcategorylist extends React.Component {
   async componentDidMount() {
     // let { id } = this.props.match.params;
 
-    await axiosConfig.get(`/admin/getproductcalegory`).then((response) => {
+    await axiosConfig.get(`/admin-subCategory/subview`).then((response) => {
       let rowData = response.data.data;
       console.log(rowData);
       this.setState({ rowData });
     });
   }
 
-  async runthisfunction(id) {
-    console.log(id);
-    await axiosConfig.get(`/admin/delpdctCategory/${id}`).then(
-      (response) => {
-        console.log(response);
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
+  runthisfunction(_id) {
+    console.log(_id);
+    Swal.fire({
+      title: "Do You Want To Delete Permanently?",
+      text: "This item will be deleted immediately",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Delete",
+      cancelButtonText: "Cancel",
+    }).then((result) => {
+      console.log(result);
+  
+           axiosConfig
+          .delete(`/admin-subCategory/subdeleteby/${_id}`)
+          .then((response) => {
+            console.log(response.data.message);
+            
+          })
+          .then(()=>{
+            window.location.reload();
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+     
+    });
   }
   onGridReady = (params) => {
     this.gridApi = params.api;

@@ -2,7 +2,7 @@ import React from "react";
 import { Row, Col, Label } from "reactstrap";
 import axiosConfig from "../../../axiosConfig";
 
-import { Eye, Edit, Trash2, ChevronDown } from "react-feather";
+import { Eye, Edit, Trash2  } from "react-feather";
 import "../../../assets/scss/plugins/tables/_agGridStyleOverride.scss";
 import "../../../assets/scss/pages/users.scss";
 import { Route } from "react-router-dom";

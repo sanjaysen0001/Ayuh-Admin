@@ -1,6 +1,9 @@
+
+
 import React, { Component } from "react";
+import Swal from "sweetalert2";
 import {
-  Card,
+  Card, 
   CardBody,
   Col,
   Form,
@@ -8,242 +11,161 @@ import {
   Input,
   Label,
   Button,
-  CustomInput,
+ 
 } from "reactstrap";
-//import axios from "axios";
+
 import axiosConfig from "../../../axiosConfig";
-import { Editor } from "react-draft-wysiwyg";
-import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
-import { EditorState, convertToRaw } from "draft-js";
-import draftToHtml from "draftjs-to-html";
-import "../../../assets/scss/plugins/extensions/editor.scss";
+
 import "react-toastify/dist/ReactToastify.css";
 import { Route } from "react-router-dom";
-// import Breadcrumbs from "../../../../components/@vuexy/breadCrumbs/BreadCrumb";
 
-import { data } from "jquery";
-export class EditCategory extends Component {
-  state = {
-    name: "",
-    img: "",
-    desc: "",
-    status: "",
-    selectedFile: undefined,
-    selectedName: "",
-    editorState: EditorState.createEmpty(),
-  };
-  uploadImageCallBack = (file) => {
-    return new Promise((resolve, reject) => {
-      const xhr = new XMLHttpRequest();
-      xhr.open("POST", "https://api.imgur.com/3/image");
-      xhr.setRequestHeader("Authorization", "Client-ID 7e1c3e366d22aa3");
-      const data = new FormData();
-      data.append("image", file);
-      xhr.send(data);
-      xhr.addEventListener("load", () => {
-        const response = JSON.parse(xhr.responseText);
-        resolve(response);
-      });
-      xhr.addEventListener("error", () => {
-        const error = JSON.parse(xhr.responseText);
-        reject(error);
-      });
-    });
-  };
-  onEditorStateChange = (editorState) => {
-    this.setState({
-      editorState,
-      desc: draftToHtml(convertToRaw(editorState.getCurrentContent())),
-    });
-  };
+import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 
-  onChangeHandler = (event) => {
-    this.setState({ selectedFile: event.target.files[0] });
-    this.setState({ selectedName: event.target.files[0].name });
-    console.log(event.target.files[0]);
+
+export class Editsubcategory extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      category: "",
+      subCategory:"",
+      description:"",
+      errorMessage: "",
+      categorys:{} // For error handling
+    };
+  }
+
+  handleChange = (event) => {
+    this.setState({ [event.target.name]: event.target.value });
   };
-  onChangeHandler = (event) => {
-    this.setState({ selectedFile: event.target.files });
-    this.setState({ selectedName: event.target.files.name });
-    console.log(event.target.files);
-  };
-  componentDidMount() {
+  submitHandler = (e) => {
+    const payload = {
+      category: this.state.category,
+      description:this.state.description,
+      subCategory:this.state.subCategory
+    };
+    e.preventDefault();
     let { id } = this.props.match.params;
     axiosConfig
-      .get(`/admin/viewonePdctCategory/${id}`)
+      .put(`/admin-category/edit/${id}`, payload)
       .then((response) => {
-        console.log(response);
-        this.setState({
-          name: response.data.data.name,
-          img: response.data.data.img,
-          desc: response.data.data.desc,
-          status: response.data.data.status,
+        Swal.fire({
+          icon: "success",
+          title: "Success!",
+          text: "Sub-Category Edit successfully.",
+          confirmButtonColor: "#3085d6",
+          confirmButtonText: "OK",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            this.props.history.push(`/appmanagement/category-list`);
+          }
         });
       })
       .catch((error) => {
-        console.log(error);
+        console.log(error.response);
+      });
+  };
+  componentDidMount() {
+
+    let { id } = this.props.match.params;
+    axiosConfig.get(`/admin-subCategory/subviewbyid/${id}`)
+      .then((response) => {
+       const datas=response.data?.data
+        this.setState(datas);
+        console.log(datas);
+      })
+      .catch((error) => {
+        console.log(error.response);
       });
   }
 
-  changeHandler1 = (e) => {
-    this.setState({ status: e.target.value });
-  };
-  changeHandler = (e) => {
-    this.setState({ [e.target.name]: e.target.value });
-  };
-
-  submitHandler = (e) => {
-    e.preventDefault();
-    console.log(this.props.match.params, this.state);
-    const data = new FormData();
-
-    data.append("name", this.state.name);
-
-    data.append("desc", this.state.desc);
-
-    data.append("status", this.state.status);
-    if (this.state.selectedFile !== null) {
-      data.append("img", this.state.selectedFile, this.state.selectedName);
-    }
-
-    for (var value of data.values()) {
-      console.log(value);
-    }
-    for (var key of data.keys()) {
-      console.log(key);
-    }
-    let { id } = this.props.match.params;
-    axiosConfig
-      .post(`/admin/editProductCategory/${id}`, data)
-      .then((response) => {
-        console.log(response);
-        this.props.history.push("/app/productmanager/category/categoryList");
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
   render() {
     return (
       <div>
-        {/* <Breadcrumbs
-          breadCrumbTitle="Edit Category"
-          breadCrumbParent=" Product Management"
-          breadCrumbActive="Edit Category"
-        /> */}
-        <Card>
-          <Row className="m-2">
-            <Col>
-              <h1 col-sm-6 className="float-left">
-                Edit Sub-Category
-              </h1>
-            </Col>
-            <Col>
-              <Route
-                render={({ history }) => (
-                  <Button
-                    className=" btn btn-danger float-right"
-                    onClick={() =>
-                      history.push("/appmanagement/Subcategory-list")
-                    }
-                  >
-                    Back
-                  </Button>
-                )}
-              />
-            </Col>
-          </Row>
-          <CardBody>
-            <Form className="m-1" onSubmit={this.submitHandler}>
-              <Row>
-                <Col lg="4" md="4" sm="4" className="mb-2">
-                  <Label>Category Name</Label>
-                  <Input
-                    required
-                    type="text"
-                    name="name"
-                    placeholder="Enter Category Name"
-                    value={'abcd'}
-                    onChange={this.changeHandler}
-                  ></Input>
-                </Col>
-
-                <Col lg="4" md="4" sm="4" className="mb-2">
-                <Label>Sub-Category Name</Label>
-                <Input
-                  required
-                  type="text"
-                  name="name"
-                  placeholder="Enter Category Name"
-                  value={'demo'}
-                  onChange={this.changeHandler}
-                ></Input>
-              </Col>
-                <Col lg="12" md="12" sm="12" className="mb-2">
-                  <Label> Description</Label>
-
-                  <br />
-
-                  <Editor
-                    wrapperClassName="demo-wrapper"
-                    editorClassName="demo-editor"
-                    onEditorStateChange={this.onEditorStateChange}
-                    value="dummy data"
-                    toolbar={{
-                      inline: { inDropdown: true },
-                      list: { inDropdown: true },
-                      textAlign: { inDropdown: true },
-                      link: { inDropdown: true },
-                      history: { inDropdown: true },
-                      image: {
-                        uploadCallback: this.uploadImageCallBack,
-                        previewImage: true,
-                        alt: { present: true, mandatory: true },
-                      },
-                    }}
-                  />
-                </Col>
-              </Row>
-              <Col lg="6" md="6" sm="6" className="mb-2">
-              <Label className="mb-1">Status</Label>
-              <div
-                className="form-label-group"
-                onChange={(e) => this.changeHandler1(e)}
+      <Card>
+      <Row className="m-2">
+        <Col>
+          <h1 col-sm-6 className="float-left">
+            Edit Category
+          </h1>
+        </Col>
+        <Col>
+          <Route
+            render={({ history }) => (
+              <Button
+                className=" btn btn-danger float-right"
+                onClick={() =>
+                  history.push("/appmanagement/Subcategory-list")
+                }
               >
-                <input
-                  style={{ marginRight: "3px" }}
-                  type="radio"
-                  name="status"
-                  value="Active"
-                />
-                <span style={{ marginRight: "20px" }}>Active</span>
+                Back
+              </Button>
+            )}
+          />
+        </Col>
+      </Row>
+      <CardBody>
+      <Form className="m-1" onSubmit={this.submitHandler}>
+      <Row>
+        <Col lg="6" md="6" sm="6" className="mb-2">
+          <Label>Category Name</Label>
+          <Input
+            required
+            type="text"
+            name="categoryName"
+            placeholder="Enter Category Name"
+            value={this.state.category}
+            onChange={this.handleChange}
+            disabled
+          />
+        </Col>
 
-                <input
-                  style={{ marginRight: "3px" }}
-                  type="radio"
-                  name="status"
-                  value="Inactive"
-                />
-                <span style={{ marginRight: "3px" }}>Inactive</span>
-              </div>
-            </Col>
-              
-              <Row>
-                <Col lg="6" md="6" sm="6" className="mb-2">
-                  <Button.Ripple
-                    color="primary"
-                    type="submit"
-                    className="mr-1 mb-1"
-                  >
-                    Save
-                  </Button.Ripple>
-                </Col>
-              </Row>
-            </Form>
-          </CardBody>
-        </Card>
+        <Col lg="6" md="6" sm="6" className="mb-2">
+          <Label>Sub-Category Name</Label>
+          <Input
+            required
+            type="text"
+            name="subCategory"
+            placeholder="Enter Date"
+            value={this.state.subCategory}
+            onChange={this.handleChange}
+          />
+        </Col>
+
+        <Col lg="6" md="6" sm="6" className="mb-2">
+          <Label>Description</Label>
+          <textarea
+            style={{
+              width: '100%',
+              padding: "0.7rem 0.7rem",
+              border: "1px solid #d9d9d9",
+              borderRadius: '5px'
+            }}
+            required
+            name="description"
+            placeholder="description"
+            value={this.state.description}
+            onChange={this.handleChange}
+          ></textarea>
+        </Col>
+      </Row>
+
+      <Row>
+        <Col lg="6" md="6" sm="6" className="mb-2">
+          <Button
+            color="primary"
+            type="submit"
+            className="mr-1 mb-1"
+          >
+            Save
+          </Button>
+        </Col>
+      </Row>
+    </Form>
+      </CardBody>
+    </Card>
       </div>
     );
   }
 }
-export default EditCategory;
+export default Editsubcategory;
+

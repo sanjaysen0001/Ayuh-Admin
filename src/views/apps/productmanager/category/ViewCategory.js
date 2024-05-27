@@ -5,18 +5,15 @@ import {
   Row,
   Col,
   Button,
-  Media,
-  Breadcrumb,
-  BreadcrumbItem,
+  
 } from "reactstrap";
-import { history } from "../../../../history";
+
 import "../../../../assets/scss/pages/app-ecommerce-shop.scss";
 import "../../../../assets/scss/pages/users.scss";
-import Breadcrumbs from "../../../../components/@vuexy/breadCrumbs/BreadCrumb";
-import ReactHtmlParser from "react-html-parser";
+
 
 import axiosConfig from "../../../../axiosConfig";
-import axios from "axios";
+
 import { Route } from "react-router-dom";
 class ViewProduct extends React.Component {
   constructor(props) {
@@ -29,7 +26,7 @@ class ViewProduct extends React.Component {
   componentDidMount() {
     let { id } = this.props.match.params;
     axiosConfig
-      .get(`/admin/viewonePdctCategory/${id}`)
+      .get(`/admin-category/viewbyid/${id}`)
 
       .then((response) => {
         //console.log(response.data);
@@ -98,7 +95,7 @@ class ViewProduct extends React.Component {
                   <span>Category Name</span>
                   </Col>
                   <Col sm="4" md="4" lg="4">
-                  <span>abcd</span>
+                  <span>{this.state.data.categoryName}</span>
                   </Col>
                   </Row>
                   <Row className='mt-1'>
@@ -106,7 +103,7 @@ class ViewProduct extends React.Component {
                   <span>Description</span>
                   </Col>
                   <Col sm="4" md="4" lg="4">
-                  <span>dummy data</span>
+                  <span>{this.state.data.description}</span>
                   </Col>
                   </Row>
                   
@@ -115,7 +112,7 @@ class ViewProduct extends React.Component {
                   <span>Date</span>
                   </Col>
                   <Col sm="4" md="4" lg="4">
-                  <span>15-02-2024</span>
+                  <span>{this.state.data.date}</span>
                   </Col>
                   </Row>
                   </Col>

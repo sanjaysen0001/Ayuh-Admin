@@ -591,8 +591,8 @@ import {  Eye, Edit,Trash2, ChevronDown } from "react-feather";
 import "../../../assets/scss/plugins/tables/_agGridStyleOverride.scss";
 import "../../../assets/scss/pages/users.scss";
 import { Route } from "react-router-dom";
-import Breadcrumbs from "../../../components/@vuexy/breadCrumbs/BreadCrumb";
-import SwitchEvent from "../../forms/form-elements/switch/SwitchEvent";
+// import Breadcrumbs from "../../../components/@vuexy/breadCrumbs/BreadCrumb";
+// import SwitchEvent from "../../forms/form-elements/switch/SwitchEvent";
 import swal from "sweetalert";
 
 class DoctorList extends React.Component {

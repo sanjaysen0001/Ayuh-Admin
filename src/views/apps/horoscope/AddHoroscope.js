@@ -8,7 +8,7 @@ import {
   Input,
   Label,
   Button,
-  FormGroup,
+  // FormGroup,
 } from "reactstrap";
 import axiosConfig from "../../../axiosConfig";
 import "react-toastify/dist/ReactToastify.css";
@@ -19,7 +19,7 @@ import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { EditorState, convertToRaw } from "draft-js";
 import "../../../assets/scss/plugins/extensions/editor.scss";
 import draftToHtml from "draftjs-to-html";
-import { data } from "jquery";
+// import { data } from "jquery";
 import swal from "sweetalert";
 export class AddHoroscope extends Component {
   constructor(props) {

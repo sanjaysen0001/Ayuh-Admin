@@ -5,14 +5,14 @@ import {
   Col,
   Form,
   Row,
-  Input,
+
   Label,
   Button,
 } from "reactstrap";
 import axiosConfig from "../../../axiosConfig";
 import "react-toastify/dist/ReactToastify.css";
 import { Route } from "react-router-dom";
-import Breadcrumbs from "../../../components/@vuexy/breadCrumbs/BreadCrumb";
+
 import swal from "sweetalert";
 export class Editpharma extends Component {
   constructor(props) {

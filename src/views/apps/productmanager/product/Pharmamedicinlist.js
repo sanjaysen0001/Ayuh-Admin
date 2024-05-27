@@ -5,7 +5,7 @@ import {
   Input,
   Row,
   Col,
-  CustomInput,
+ 
   Button,
   UncontrolledDropdown,
   DropdownMenu,
@@ -13,7 +13,7 @@ import {
   DropdownToggle,
 } from "reactstrap";
 import axiosConfig from "../../../../axiosConfig";
-import ReactHtmlParser from "react-html-parser";
+
 import { ContextLayout } from "../../../../utility/context/Layout";
 import { AgGridReact } from "ag-grid-react";
 import { Eye, Edit, Trash2, ChevronDown } from "react-feather";
@@ -21,7 +21,7 @@ import { Eye, Edit, Trash2, ChevronDown } from "react-feather";
 import "../../../../assets/scss/plugins/tables/_agGridStyleOverride.scss";
 import "../../../../assets/scss/pages/users.scss";
 import { Route } from "react-router-dom";
-import Breadcrumbs from "../../../../components/@vuexy/breadCrumbs/BreadCrumb";
+
 
 class Pharmamedicinlist extends React.Component {
   state = {

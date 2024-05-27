@@ -17,9 +17,10 @@ const Viewsubcategory = (props) => {
     const fetchUserData = async () => {
       try {
         const { id } = props.match.params;
-        const response = await axiosConfig.get(`/user/viewoneuser/${id}`);
+        const response = await axiosConfig.get(`/admin-subCategory/subviewbyid/${id}`);
         const userData = response.data.data;
         setUserData(userData);
+        console.log(userData);
       } catch (error) {
         console.log(error.response);
       }
@@ -59,7 +60,7 @@ const Viewsubcategory = (props) => {
                   <span>Category</span>
                   </Col>
                   <Col sm="4" md="4" lg="4">
-                  <span>abcd</span>
+                  <span>{userData.category}</span>
                   </Col>
                   </Row>
                   <Row className='mt-1'>
@@ -67,7 +68,7 @@ const Viewsubcategory = (props) => {
                   <span>Sub-Category Name</span>
                   </Col>
                   <Col sm="4" md="4" lg="4">
-                  <span>demo</span>
+                  <span>{userData.subCategory}</span>
                   </Col>
                   </Row>
                   <Row className='mt-1'>
@@ -75,17 +76,10 @@ const Viewsubcategory = (props) => {
                   <span>Description</span>
                   </Col>
                   <Col sm="4" md="4" lg="4">
-                  <span>dummy data</span>
+                  <span>{userData.description}</span>
                   </Col>
                   </Row>
-                  <Row className='mt-1'>
-                  <Col sm="4" md="4" lg="4">
-                  <span>Status</span>
-                  </Col>
-                  <Col sm="4" md="4" lg="4">
-                  <span>Active</span>
-                  </Col>
-                  </Row>
+                 
                   </Col>
                 </Row>
               </CardBody>
