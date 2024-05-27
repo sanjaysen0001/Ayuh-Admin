@@ -8,7 +8,7 @@ import {
   Input,
   Label,
   Button,
-  FormGroup,
+  // FormGroup,
 } from "reactstrap";
 //import axios from "axios";
 import axiosConfig from "../../../axiosConfig";
@@ -18,7 +18,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { Route } from "react-router-dom";
 import Breadcrumbs from "../../../components/@vuexy/breadCrumbs/BreadCrumb";
 import { EditorState } from "draft-js"
-import { data } from "jquery";
+// import { data } from "jquery";
 import swal from "sweetalert";
 import { Editor } from "react-draft-wysiwyg"
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css"

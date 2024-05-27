@@ -1,21 +1,21 @@
-import React, { Component } from "react";
+import React  from "react";
 import {
   Card,
   CardBody,
   Row,
   Col,
-  FormGroup,
-  CustomInput,
-  Form,
-  Label,
-  Input,
+  // FormGroup,
+  // CustomInput,
+  // Form,
+  // Label,
+  // Input,
   Button,
 } from "reactstrap";
-import axiosConfig from "../../../../axiosConfig";
+// import axiosConfig from "../../../../axiosConfig";
 // import swal from "sweetalert";
 import { Route } from "react-router-dom";
 import Breadcrumbs from "../../../../components/@vuexy/breadCrumbs/BreadCrumb";
-import Textarea from "../../../forms/form-elements/textarea/Textarea";
+// import Textarea from "../../../forms/form-elements/textarea/Textarea";
 import "../../../assets/scss/pages/users.scss";
 import axios from "axios";
 

@@ -11,7 +11,7 @@ import {
   Button,
   Breadcrumb,
   BreadcrumbItem,
-  Media,
+  // Media,
 } from "reactstrap";
 import axiosConfig from "../../../../axiosConfig";
 import swal from "sweetalert";

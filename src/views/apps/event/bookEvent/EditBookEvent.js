@@ -22,7 +22,7 @@ import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { EditorState, convertToRaw } from "draft-js";
 import draftToHtml from "draftjs-to-html";
 
-import { data } from "jquery";
+// import { data } from "jquery";
 import swal from "sweetalert";
 export class EditBookEvent extends Component {
   constructor(props) {

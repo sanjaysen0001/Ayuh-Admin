@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import {
   Card,
-  CardHeader,
-  CardTitle,
+  // CardHeader,
+  // CardTitle,
   CardBody,
   Row,
   Col,
@@ -15,7 +15,7 @@ import {
   BreadcrumbItem,
 } from "reactstrap";
 import axiosConfig from "../../../../axiosConfig";
-import { history } from "../../../../history";
+// import { history } from "../../../../history";
 import swal from "sweetalert";
 import { Route } from "react-router-dom";
 

@@ -24,6 +24,7 @@ import "../../../../assets/scss/pages/users.scss";
 import { Route } from "react-router-dom";
 import Breadcrumbs from "../../../../components/@vuexy/breadCrumbs/BreadCrumb";
 import ReactHtmlParser from "react-html-parser";
+import Swal from "sweetalert2";
 class CategoryList extends React.Component {
   state = {
     rowData: [],
@@ -41,7 +42,7 @@ class CategoryList extends React.Component {
         headerName: "S.No",
         valueGetter: "node.rowIndex + 1",
         field: "node.rowIndex + 1",
-        width: 100,
+        width: 120,
         filter: true,
         // checkboxSelection: true,
         // headerCheckboxSelectionFilteredOnly: true,
@@ -75,7 +76,7 @@ class CategoryList extends React.Component {
         headerName: "Category Name",
         field: "name",
         filter: true,
-        width: 200,
+        width: 250,
         cellRendererFramework: (params) => {
           return (
             <div>
@@ -88,7 +89,7 @@ class CategoryList extends React.Component {
         headerName: "Description",
         field: "desc",
         filter: true,
-        width: 200,
+        width: 250,
         cellRendererFramework: (params) => {
           return (
             <div className="d-flex align-items-center cursor-pointer">
@@ -119,7 +120,7 @@ class CategoryList extends React.Component {
         headerName: "Date",
         field: "dateofregister",
         filter: true,
-        width: 150,
+        width: 250,
         cellRendererFramework: (params) => {
           return (
             <div>
@@ -148,7 +149,7 @@ class CategoryList extends React.Component {
       {
         headerName: "Action",
         field: "sortorder",
-        width: 200,
+        width: 240,
         cellRendererFramework: (params) => {
           return (
             <div className="actions cursor-pointer">
@@ -185,9 +186,7 @@ class CategoryList extends React.Component {
                 size="25px"
                 color="red"
                 onClick={() => {
-                  let selectedData = this.gridApi.getSelectedRows();
                   this.runthisfunction(params.data._id);
-                  this.gridApi.updateRowData({ remove: selectedData });
                 }}
               />
             </div>
@@ -206,16 +205,33 @@ class CategoryList extends React.Component {
     });
   }
 
-  async runthisfunction(id) {
-    console.log(id);
-    await axiosConfig.get(`/admin/delpdctCategory/${id}`).then(
-      (response) => {
-        console.log(response);
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
+  runthisfunction(_id) {
+    console.log(_id);
+    Swal.fire({
+      title: "Do You Want To Delete Permanently?",
+      text: "This item will be deleted immediately",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Delete",
+      cancelButtonText: "Cancel",
+    }).then((result) => {
+      console.log(result);
+     
+        // User confirmed, proceed with deletion
+        axiosConfig
+        .delete(`/admin-category/deleteby/${_id}`)
+        .then((response) => {
+          console.log(response.data.message);
+          window.location.reload();
+            
+          }) 
+          .catch((error) => {
+            console.log(error);
+          });
+    
+    });
   }
   onGridReady = (params) => {
     this.gridApi = params.api;

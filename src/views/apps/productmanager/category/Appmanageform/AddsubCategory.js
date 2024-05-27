@@ -1,3 +1,4 @@
+
 import React, { Component } from "react";
 import {
   Card,
@@ -8,114 +9,93 @@ import {
   Input,
   Label,
   Button,
-  CustomInput,
+  // CustomInput,
 } from "reactstrap";
+ 
 import axiosConfig from "../../../../../axiosConfig";
 import "react-toastify/dist/ReactToastify.css";
 import { Route } from "react-router-dom";
-import Breadcrumbs from "../../../../../components/@vuexy/breadCrumbs/BreadCrumb";
-import { Editor } from "react-draft-wysiwyg";
+
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
-import { EditorState, convertToRaw } from "draft-js";
-import "../../../../../assets/scss/plugins/extensions/editor.scss";
-import draftToHtml from "draftjs-to-html";
+
 // import { data } from "jquery";
-// import swal from "sweetalert";
-
+import Swal from "sweetalert2";
 export class AddSUBCategory extends Component {
-  state = {
-    astroId: "",
-    name: "",
-    img: "",
-    desc: "",
-    status: "",
-    editorState: EditorState.createEmpty(),
-    selectedFile: undefined,
-    selectedName: "",
-  };
-  uploadImageCallBack = (file) => {
-    return new Promise((resolve, reject) => {
-      const xhr = new XMLHttpRequest();
-      xhr.open("POST", "https://api.imgur.com/3/image");
-      xhr.setRequestHeader("Authorization", "Client-ID 7e1c3e366d22aa3");
-      const data = new FormData();
-      data.append("image", file);
-      xhr.send(data);
-      xhr.addEventListener("load", () => {
-        const response = JSON.parse(xhr.responseText);
-        resolve(response);
-      });
-      xhr.addEventListener("error", () => {
-        const error = JSON.parse(xhr.responseText);
-        reject(error);
-      });
-    });
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      selectedCategory: "",
+      subCategoryName: "",
+      description: "",
+      categories: [], // Assuming you have a way to load these categories
+    };
 
-  onEditorStateChange = (editorState) => {
-    this.setState({
-      editorState,
-      desc: draftToHtml(convertToRaw(editorState.getCurrentContent())),
-    });
-  };
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
 
-  onChangeHandler = (event) => {
-    this.setState({ selectedFile: event.target.files[0] });
-    this.setState({ selectedName: event.target.files[0].name });
-    console.log(event.target.files[0]);
-  };
-  onChangeHandler = (event) => {
-    this.setState({ selectedFile: event.target.files });
-    this.setState({ selectedName: event.target.files.name });
-    console.log(event.target.files);
-  };
-  changeHandler1 = (e) => {
-    this.setState({ status: e.target.value });
-  };
-  changeHandler = (e) => {
-    this.setState({ [e.target.name]: e.target.value });
-  };
-
-  submitHandler = (e) => {
-    e.preventDefault();
-    console.log(this.props.match.params, this.state);
-    const data = new FormData();
-    data.append("astroId", this.state.astroId);
-    data.append("name", this.state.name);
-    data.append("desc", this.state.desc);
-    data.append("status", this.state.status);
-    for (const file of this.state.selectedFile) {
-      if (this.state.selectedFile !== null) {
-        data.append("img", file, file.name);
-      }
-    }
-    for (var value of data.values()) {
-      console.log(value);
-    }
-    for (var key of data.keys()) {
-      console.log(key);
-    }
-    // console.log(this.props.match.params, this.state);
-
-    let { id } = this.props.match.params;
+  componentDidMount() {
     axiosConfig
-      .post(`/admin/addProductcategory`, id, data)
+      .get("/admin-category/view")
       .then((response) => {
-        console.log(response);
-        this.props.history.push("/app/productmanager/category/categoryList");
+        const datas=response.data?.data
+        this.setState({ categories: datas });
+        console.log(datas);
       })
       .catch((error) => {
-        console.log(error);
+        console.error("There was an error fetching the categories!", error);
       });
+  }
+
+  handleChange = (event) => {
+    const { name, value } = event.target;
+    this.setState({
+      [name]: value,
+    });
   };
+  handleSubmit(event) {
+    event.preventDefault();
+    const { selectedCategory, subCategoryName, description } = this.state;
+
+    // Validate form data
+    if (!selectedCategory || !subCategoryName || !description)  {
+      alert("Please fill in all fields");
+      return;
+    }
+
+    // Post data to API
+    axiosConfig
+      .post("/admin-subCategory/subcreate", {
+        category: selectedCategory,
+        subCategory: subCategoryName,
+        description:description,
+      })
+      .then((response) => {
+        console.log(response.data);
+
+        this.setState({ selectedCategory: "", subCategoryName: "",description: "" });
+        Swal.fire({
+          icon: "success",
+          title: "Success!",
+          text: "Sub-Category Add successfully.",
+          confirmButtonColor: "#3085d6",
+          confirmButtonText: "OK",
+        });
+        window.location.reload();
+      })
+      .catch((error) => {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Something went wrong! Please try again later.",
+        });
+      });
+  }
+
   render() {
+    const { selectedCategory, description, categories } = this.state;
     return (
       <div>
-        {/* <Breadcrumbs
-          breadCrumbTitle="App Management"
-          breadCrumbParent="Add Category"
-          // breadCrumbActive="Add Category"
-        /> */}
         <Card>
           <Row className="m-2">
             <Col>
@@ -125,53 +105,150 @@ export class AddSUBCategory extends Component {
             </Col>
             <Col>
               <Route
-              render={({ history }) => (
-                <Button
-                  className=" btn btn-danger float-right"
-                  onClick={() => history.goBack()}
-                >
-                  Back
-                </Button>
-
-              )}
-            />
+                render={({ history }) => (
+                  <Button
+                    className=" btn btn-danger float-right"
+                    onClick={() => history.push("/appmanagement/Subcategory-list")}
+                  >
+                    Back
+                  </Button>
+                )}
+              />
             </Col>
           </Row>
           <CardBody>
-            <Form className="m-1" onSubmit={this.submitHandler}>
+            <Form className="m-1" onSubmit={this.handleSubmit}>
               <Row>
+                {/*
                 <Col lg="4" md="4" sm="4" className="mb-2">
-                  <Label>Category Name</Label>
+                  <Label>Product Title</Label>
                   <Input
                     required
                     type="text"
-                    name="name"
-                    placeholder="Enter Category Name"
-                    // value={'abcd'}
-                    onChange={this.changeHandler}
-                  >
-
-                  </Input>
-                </Col>
-
-
-
-                <Col lg="4" md="4" sm="4" className="mb-2">
-                  <Label>Sub-Category Name</Label>
-                  <Input
-                    required
-                    type="text"
-                    name="name"
-                    placeholder="Enter Category Name"
-                    // value={'demo'}
+                    name="title"
+                    placeholder="Enter Title"
+                    value={this.state.title}
                     onChange={this.changeHandler}
                   ></Input>
                 </Col>
+ */}
+                <Col lg="6" md="6" sm="6" className="mb-2">
+                  <label htmlFor="categorySelect">Select Category</label>
+                  <br />
+                  <select
+                    className="form-select w-100"
+                    style={{
+                      height: "37px",
+                      border: "1px solid #d9d9d9",
+                      borderRadius: "5px",
+                    }}
+                    aria-label="Default select example"
+                    id="categorySelect"
+                    name="selectedCategory"
+                    value={selectedCategory}
+                    onChange={this.handleChange}
+                  >
+                    <option value="" disabled>
+                      --Select--
+                    </option>
+                    {categories.map((category) => (
+                      <option key={category.id} value={category.id}>
+                        {category.categoryName}
+                      </option>
+                    ))}
+                  </select>
+                </Col>
+                <Col lg="6" md="6" sm="6" className="mb-2">
+                  <Label htmlFor="subCategoryName">Sub-Category Name</Label>
+                  <Input
+                    required
+                    type="text"
+                    name="subCategoryName"
+                    id="subCategoryName"
+                    // value={subCategoryName}
+                    onChange={this.handleChange}
+                  />
+                </Col>
+                <Col lg="6" md="6" sm="6" className="mb-2">
+              <Label>Description</Label>
+              <textarea
+                style={{ width: '100%', padding: "0.7rem 0.7rem", border: "1px solid #d9d9d9", borderRadius: '5px' }}
+                required
+                type="text"
+                name="description"
+                placeholder="Description"
+                // value={this.state.description}
+                onChange={this.handleChange}
+              ></textarea>
+            </Col>
 
+                {/*
+                <Col lg="6" md="6" sm="6" className="mb-2">
+                  <Label>Product Category</Label>
+                  <CustomInput
+                    type="select"
+                    name="category"
+                    value={this.state.category}
+                    onChange={this.changeHandler}
+                  >
+                    <option>Select Product Category</option>
+                    {this.state.categoryP?.map((allCategory) => (
+                      <option value={allCategory?._id} key={allCategory?._id}>
+                        {allCategory?.name}
+                      </option>
+                    ))}
+                  </CustomInput>
+                </Col>
+                <Col lg="4" md="4" sm="4" className="mb-2">
+                  <Label>Price(MRP)</Label>
+                  <Input
+                    required
+                    type="number"
+                    name="price"
+                    placeholder="Enter price"
+                    value={this.state.price}
+                    onChange={this.changeHandler}
+                  ></Input>
+                </Col>
+                <Col lg="4" md="4" sm="4" className="mb-2">
+                  <Label>Set No of Question </Label>
+                  <Input
+                    required
+                    type="number"
+                    name="qsCount"
+                    placeholder="Enter No of Question "
+                    value={this.state.qsCount}
+                    onChange={this.changeHandler}
+                  />
+                </Col>
+ */}
+                {/* <Col lg="4" md="4" sm="4" className="mb-2">
+                  <Label> * Limit(50)</Label>
+                  <Input
+                    required
+                    type="number"
+                    name="limit"
+                    onKeyDown={this.blockInvalidChar}
+                    min="0"
+                    max="50"
+                    placeholder="Enter limit max is 50"
+                    value={this.state.limit}
+                    onChange={this.changeHandler}
+                  />
+                </Col> */}
+                {/*
+                <Col lg="4" md="4" sm="4" className="mb-2">
+                  <Label>Thumnail Image</Label>
 
-              
+                  <Label>Image</Label>
+                  <CustomInput
+                    type="file"
+                    multiple
+                    onChange={this.onChangeHandler}
+                  />
+                </Col>
                 <Col lg="12" md="12" sm="12" className="mb-2">
-                  <Label> Description</Label>
+                  <Label>Description</Label>
 
                   <br />
 
@@ -193,7 +270,9 @@ export class AddSUBCategory extends Component {
                     }}
                   />
                 </Col>
+                 */}
               </Row>
+              {/*
               <Col lg="6" md="6" sm="6" className="mb-2">
                 <Label className="mb-1">Status</Label>
                 <div
@@ -217,6 +296,7 @@ export class AddSUBCategory extends Component {
                   <span style={{ marginRight: "3px" }}>Inactive</span>
                 </div>
               </Col>
+               */}
               <Row>
                 <Col lg="6" md="6" sm="6" className="mb-2">
                   <Button.Ripple
@@ -224,7 +304,7 @@ export class AddSUBCategory extends Component {
                     type="submit"
                     className="mr-1 mb-1"
                   >
-                    Save
+                    Add
                   </Button.Ripple>
                 </Col>
               </Row>

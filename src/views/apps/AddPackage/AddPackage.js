@@ -14,12 +14,12 @@ import {
 } from "reactstrap";
 
 import "../../../assets/scss/plugins/tables/_agGridStyleOverride.scss";
-import { Eye, Edit, Trash2, ChevronDown } from "react-feather";
+import {  Trash2, ChevronDown } from "react-feather";
 import { ContextLayout } from "../../../utility/context/Layout";
 import "../../../assets/scss/pages/users.scss";
 import { AgGridReact } from "ag-grid-react";
-import { Route } from "react-router-dom";
-import axios from "axios";
+// import { Route } from "react-router-dom";
+// import axios from "axios";
 import axiosConfig from "../../../axiosConfig";
 import Breadcrumbs from "../../../components/@vuexy/breadCrumbs/BreadCrumb";
 import swal from "sweetalert";

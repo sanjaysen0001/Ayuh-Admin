@@ -12,7 +12,7 @@ import "../../../assets/scss/pages/app-ecommerce-shop.scss";
 import { Route } from "react-router-dom";
 import axiosConfig from "../../../axiosConfig";
 import ReactHtmlParser from "react-html-parser";
-import axios from "axios";
+// import axios from "axios";
 class PackageOfferViewOne extends React.Component {
   constructor(props) {
     super(props);
