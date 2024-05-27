@@ -79,7 +79,7 @@ class CategoryList extends React.Component {
         cellRendererFramework: (params) => {
           return (
             <div>
-              <span>abcd</span>
+            <span>{params.data?.categoryName}</span>
             </div>
           );
         },
@@ -92,7 +92,7 @@ class CategoryList extends React.Component {
         cellRendererFramework: (params) => {
           return (
             <div className="d-flex align-items-center cursor-pointer">
-              <span>dummy data</span>
+            <span>{params.data?.description}</span>
             </div>
           );
         },
@@ -123,7 +123,7 @@ class CategoryList extends React.Component {
         cellRendererFramework: (params) => {
           return (
             <div>
-              <span>15-02-2024</span>
+            <span>{params.data?.date}</span>
             </div>
           );
         },
@@ -199,8 +199,8 @@ class CategoryList extends React.Component {
   async componentDidMount() {
     // let { id } = this.props.match.params;
 
-    await axiosConfig.get(`/admin/getallCategory`).then((response) => {
-      let rowData = response.data.data;
+    await axiosConfig.get(`/admin-category/view`).then((response) => {
+      let rowData = response?.data?.data;
       console.log(rowData);
       this.setState({ rowData });
     });
