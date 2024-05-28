@@ -728,8 +728,8 @@ const navigationConfig = [
         navLink: "/app/productmanager/category/commissionmangement/doctorcommission",
       },
       {
-        id: "medicine commision",
-        title: "Medicine Commision",
+        id: "pharmacommision",
+        title: "Pharma Commision",
         type: "item",
         icon: <Icon.Briefcase size={12} />,
         permissions: ["admin", "editor"],

@@ -1,129 +1,193 @@
-import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
-import Select from 'react-select';
+
+import React, { Component } from "react";
 import {
-  Row,
-  Col,
   Card,
-  CardHeader,
   CardBody,
+  Col,
   Form,
-  FormGroup,
-  Label,
+  Row,
   Input,
+  Label,
   Button,
-  CustomInput,
-} from 'reactstrap';
+  FormGroup,
+  // CustomInput,
+} from "reactstrap";
+ 
+import axiosConfig from "../../../../../axiosConfig";
+import "react-toastify/dist/ReactToastify.css";
+import { Route } from "react-router-dom";
 
-const DrForm = () => {
-  const history = useHistory();
+import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 
-  const [data, setData] = useState({
-    commissionValue: '',
-    doctors: [],
-    selectAllDoctors: false,
-  });
+// import { data } from "jquery";
+import Swal from "sweetalert2";
+export class DrForm extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+     
+      selectdoctor:"",
+      commissionvalue: "",
+      categories: [], // Assuming you have a way to load these categories
+    };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Handle form submission
-    console.log('Form submitted:', data);
-  };
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setData({ ...data, [name]: value });
-  };
+  componentDidMount() {
+    axiosConfig
+      .get("/doctorPanel/viewAll")
+      .then((response) => {
+        const datas=response.data?.data
+        this.setState({ categories: datas });
+        console.log(datas);
+      })
+      .catch((error) => {
+        console.error("There was an error fetching the categories!", error);
+      });
+  }
 
-  const handleDoctorSelect = (selectedOptions) => {
-    if (selectedOptions && Array.isArray(selectedOptions)) {
-      const doctors = selectedOptions.map((option) => ({
-        id: option.value,
-        selected: true,
-      }));
-      setData({ ...data, doctors, selectAllDoctors: false });
-    } else {
-      console.error('Selected options are null or undefined.');
-    }
-  };
-
-  const toggleSelectAllDoctors = () => {
-    const { selectAllDoctors } = data;
-    setData({
-      ...data,
-      doctors: selectAllDoctors ? [] : [],
-      selectAllDoctors: !selectAllDoctors,
+  handleChange = (event) => {
+    const { name, value } = event.target;
+    this.setState({
+      [name]: value,
     });
   };
+  handleSubmit(event) {
+    event.preventDefault();
+    const { selectdoctor, commissionvalue } = this.state;
 
-  return (
-    <Row>
-      <Col sm="12" md="8" className="mx-auto">
+    // Validate form data
+    if (!selectdoctor || !commissionvalue )  {
+      alert("Please fill in all fields");
+      return;
+    }
+
+    // Post data to API
+    axiosConfig
+      .post("/doctor-commision/insert", {
+        selectdoctor: selectdoctor,
+        commissionvalue: commissionvalue,
+        
+      })
+      .then((response) => {
+        console.log(response.data);
+
+        this.setState({ selectdoctor: "", commissionvalue: ""});
+        Swal.fire({
+          icon: "success",
+          title: "Success!",
+          text: "Sub-Category Add successfully.",
+          confirmButtonColor: "#3085d6",
+          confirmButtonText: "OK",
+        });
+        // window.location.reload();
+      })
+      .catch((error) => {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Something went wrong! Please try again later.",
+        });
+      });
+  }
+
+  render() {
+    const { selectdoctor, commissionvalue, categories } = this.state;
+    return (
+      <div>
         <Card>
-          <CardHeader>
-            <h3>Doctor's Commission Form</h3>
-            <Button color="danger" className="ml-2" onClick={() => history.goBack()}>
-              Back
-            </Button>
-          </CardHeader>
-          <CardBody>
-            <Form onSubmit={handleSubmit}>
-              <FormGroup row className="align-items-center">
-                <Label for="doctorsDropdown" sm={3}>
-                  Choose Doctors:
-                </Label>
-                <Col sm={6} className="d-flex align-items-center">
-                  <Select
-                    isMulti
-                    name="doctorsDropdown"
-                    options={[]}
-                    value={data.doctors}
-                    onChange={handleDoctorSelect}
-                    className="w-100"
-                    required
-                  />
-                  <div className="ml-2">
-                    <Label check>
-                      <CustomInput
-                        type="checkbox"
-                        id="selectAllCheckbox"
-                        checked={data.selectAllDoctors}
-                        onChange={toggleSelectAllDoctors}
-                      />
-                      All
-                    </Label>
-                  </div>
-                </Col>
-              </FormGroup>
-              <FormGroup row>
-                <Label for="commissionValue" sm={3}>
-                  Commission Value:
-                </Label>
-                <Col sm={6}>
-                  <Input
-                    type="number"
-                    name="commissionValue"
-                    id="commissionValue"
-                    value={data.commissionValue}
-                    onChange={handleInputChange}
-                    placeholder="Enter commission value"
-                    required
-                  />
-                </Col>
-              </FormGroup>
-              <FormGroup row>
-                <Col sm={{ size: 10, offset: 3 }}>
-                  <Button color="primary" type="submit">
-                    Submit
+          <Row className="m-2">
+            <Col>
+              <h1 col-sm-6 className="float-left">
+                Add Doctor Commission
+              </h1>
+            </Col>
+            <Col>
+              <Route
+                render={({ history }) => (
+                  <Button
+                    className=" btn btn-danger float-right"
+                    onClick={() => history.push("/app/productmanager/category/commissionmangement/doctorcommission")}
+                  >
+                    Back
                   </Button>
-                </Col>
-              </FormGroup>
-            </Form>
+                )}
+              />
+            </Col>
+          </Row>
+          <CardBody>
+          <Form onSubmit={this.handleSubmit}>
+          <Row className="ml-3 mr-3">
+          <Col lg="6" md="6" sm="6" className="mb-2">
+          <FormGroup  className="align-items-center">
+          
+          
+            <label htmlFor="categorySelect">Select Doctor</label>
+            <br />
+            <select
+              className="form-select w-100"
+              style={{
+                height: "37px",
+                border: "1px solid #d9d9d9",
+                borderRadius: "5px",
+              }}
+              aria-label="Default select example"
+              id="categorySelect"
+              name="selectdoctor"
+              value={selectdoctor}
+              onChange={this.handleChange}
+            >
+              <option value="" disabled>
+                --Select--
+              </option>
+              {categories.map((doctor) => (
+                <option key={doctor.id} value={doctor.id}>
+                  {doctor.fullname
+                    }
+                </option>
+              ))}
+            </select>
+         
+          </FormGroup>
+          </Col>
+          <Col lg="6" md="6" sm="6" >
+          <FormGroup >
+         
+          
+          <label htmlFor="categorySelect">  Commission Value</label>
+            <br />
+            <Input
+              type="number"
+              name="commissionvalue"
+              id="commissionValue"
+              placeholder="Enter commission value"
+              value={commissionvalue}
+              onChange={this.handleChange}
+              required
+            />
+         
+        </FormGroup>
+        </Col>
+        </Row>
+          <FormGroup className="ml-3 mr-3">
+            <Col className="text-right">
+              <Button color="primary" type="submit">
+                Submit
+              </Button>
+            </Col>
+          </FormGroup>
+          </Form>
           </CardBody>
         </Card>
-      </Col>
-    </Row>
-  );
-};
-
+      </div>
+    );
+  }
+}
 export default DrForm;
+
+
+
+
+

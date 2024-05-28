@@ -205,6 +205,7 @@ class CategoryList extends React.Component {
     });
   }
 
+ 
   runthisfunction(_id) {
     console.log(_id);
     Swal.fire({
@@ -218,8 +219,7 @@ class CategoryList extends React.Component {
       cancelButtonText: "Cancel",
     }).then((result) => {
       console.log(result);
-     
-        // User confirmed, proceed with deletion
+      if (result.isConfirmed) {
         axiosConfig
         .delete(`/admin-category/deleteby/${_id}`)
         .then((response) => {
@@ -230,9 +230,12 @@ class CategoryList extends React.Component {
           .catch((error) => {
             console.log(error);
           });
+      }
+       
     
     });
   }
+
   onGridReady = (params) => {
     this.gridApi = params.api;
     this.gridColumnApi = params.columnApi;

@@ -164,6 +164,8 @@ class Subcategorylist extends React.Component {
     });
   }
 
+
+
   runthisfunction(_id) {
     console.log(_id);
     Swal.fire({
@@ -177,20 +179,20 @@ class Subcategorylist extends React.Component {
       cancelButtonText: "Cancel",
     }).then((result) => {
       console.log(result);
-  
-           axiosConfig
-          .delete(`/admin-subCategory/subdeleteby/${_id}`)
-          .then((response) => {
-            console.log(response.data.message);
+      if (result.isConfirmed) {
+        axiosConfig
+        .delete(`/admin-subCategory/subdeleteby/${_id}`)
+        .then((response) => {
+          console.log(response.data.message);
+          window.location.reload();
             
-          })
-          .then(()=>{
-            window.location.reload();
-          })
+          }) 
           .catch((error) => {
             console.log(error);
           });
-     
+      }
+       
+    
     });
   }
   onGridReady = (params) => {

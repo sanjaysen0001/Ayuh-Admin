@@ -19,6 +19,7 @@ import "../../../../../assets/scss/plugins/tables/_agGridStyleOverride.scss";
 import "../../../../../assets/scss/pages/users.scss";
 import { Route } from "react-router-dom";
 import Breadcrumbs from "../../../../../components/@vuexy/breadCrumbs/BreadCrumb";
+import Swal from "sweetalert2";
 
 class Doctorcommission extends React.Component {
   state = {
@@ -37,7 +38,7 @@ class Doctorcommission extends React.Component {
         headerName: "S.No",
         valueGetter: "node.rowIndex + 1",
         field: "node.rowIndex + 1",
-        width: 100,
+        width: 120,
         filter: true,
         // checkboxSelection: true,
         // headerCheckboxSelectionFilteredOnly: true,
@@ -59,14 +60,14 @@ class Doctorcommission extends React.Component {
       // },
 
       {
-        headerName: "Commission Name",
+        headerName: "Doctor Name",
         field: "comision_name",
         filter: true,
-        width: 180,
+        width: 450,
         cellRendererFramework: (params) => {
           return (
             <div>
-              <span>{params.data.comision_name}</span>
+              <span>{params.data.selectdoctor}</span>
             </div>
           );
         },
@@ -87,36 +88,36 @@ class Doctorcommission extends React.Component {
       // },
 
       {
-        headerName: "Commission Rate(%)",
+        headerName: "Commission Value",
         field: "comision_rate",
         filter: true,
-        width: 190,
+        width: 250,
         cellRendererFramework: (params) => {
           return (
             <div>
-              <span>{params.data.comision_rate}</span>
+              <span>{params.data.commissionvalue}</span>
             </div>
           );
         },
       },
 
-      {
-        headerName: "Status",
-        field: "status",
-        // filter: true,
-        width: 100,
-        cellRendererFramework: (params) => {
-          return params.value === "Active" ? (
-            <div className="badge badge-pill badge-success">
-              {params.data.status}
-            </div>
-          ) : params.value === "Inactive" ? (
-            <div className="badge badge-pill btn-primary">
-              {params.data.status}
-            </div>
-          ) : null;
-        },
-      },
+      // {
+      //   headerName: "Status",
+      //   field: "status",
+      //   // filter: true,
+      //   width: 100,
+      //   cellRendererFramework: (params) => {
+      //     return params.value === "Active" ? (
+      //       <div className="badge badge-pill badge-success">
+      //         {params.data.status}
+      //       </div>
+      //     ) : params.value === "Inactive" ? (
+      //       <div className="badge badge-pill btn-primary">
+      //         {params.data.status}
+      //       </div>
+      //     ) : null;
+      //   },
+      // },
 
       {
         headerName: "Action",
@@ -158,9 +159,7 @@ class Doctorcommission extends React.Component {
                 size="25px"
                 color="red"
                 onClick={() => {
-                  let selectedData = this.gridApi.getSelectedRows();
                   this.runthisfunction(params.data._id);
-                  this.gridApi.updateRowData({ remove: selectedData });
                 }}
               />
             </div>
@@ -169,19 +168,44 @@ class Doctorcommission extends React.Component {
       },
     ],
   };
-  // async componentDidMount() {
-  //   await axiosConfig.get(`/admin/comisionList`).then((response) => {
-  //     let rowData = response.data.data;
-  //     console.log(rowData);
-  //     this.setState({ rowData });
-  //   });
-  // }
-  async runthisfunction(id) {
-    console.log(id);
-    await axiosConfig.get(`/admin/dltComision/${id}`).then((response) => {
-      console.log(response);
+  async componentDidMount() {
+    await axiosConfig.get(`/doctor-commision/showall`).then((response) => {
+      let rowData = response.data.data;
+      console.log(rowData);
+      this.setState({ rowData });
     });
   }
+
+  runthisfunction(_id) {
+    console.log(_id);
+    Swal.fire({
+      title: "Do You Want To Delete Permanently?",
+      text: "This item will be deleted immediately",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Delete",
+      cancelButtonText: "Cancel",
+    }).then((result) => {
+      console.log(result);
+      if (result.isConfirmed) {
+        axiosConfig
+        .delete(`/doctor-commision/deleteby/${_id}`)
+        .then((response) => {
+          console.log(response.data.message);
+          window.location.reload();
+            
+          }) 
+          .catch((error) => {
+            console.log(error);
+          });
+      }
+       
+    
+    });
+  }
+
 
   onGridReady = (params) => {
     this.gridApi = params.api;

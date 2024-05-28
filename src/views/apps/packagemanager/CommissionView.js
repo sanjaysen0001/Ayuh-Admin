@@ -19,9 +19,9 @@ class CommissionView extends React.Component {
   componentDidMount() {
     let { id } = this.props.match.params;
     axiosConfig
-      .get(`admin/getOneComision/${id}`)
+      .get(`/doctor-commision/showbyid/${id}`)
       .then((response) => {
-        console.log("commission", response.data.data);
+        console.log("commission", response.data);
         this.setState({ data: response.data.data });
       })
       .catch((error) => {
@@ -33,17 +33,13 @@ class CommissionView extends React.Component {
     return (
       <React.Fragment>
         <div>
-          <Breadcrumbs
-            breadCrumbTitle="Commission"
-            breadCrumbParent="Home"
-            breadCrumbActive="View Commission"
-          />
+         
           <Row></Row>
-          <Card className="overflow-hidden app-ecommerce-details">
+          <Card className="overflow-hidden app-ecommerce-details m-2 pb-5">
             <Row className="m-2">
               <Col>
                 <h1 col-sm-6 className="float-left">
-                  View Commission
+                  View Doctor Commission
                 </h1>
               </Col>
               <Col>
@@ -52,7 +48,7 @@ class CommissionView extends React.Component {
                     <Button
                       className=" btn btn-danger float-right"
                       onClick={() =>
-                        history.push("/app/packagemanager/commission")
+                        history.push("/app/productmanager/category/commissionmangement/doctorcommission")
                       }
                     >
                       Back
@@ -62,30 +58,28 @@ class CommissionView extends React.Component {
               </Col>
             </Row>
             <CardBody className="pb-0">
-              <Row className="ml-4">
-                <Col md="4" sm="12" className="mb-4">
-                  <h4>Category Name</h4>
-                  <h6 className=""> {this.state.data.comision_name}</h6>
-                </Col>
-                <Col md="4" sm="12" className="mb-4">
-                  <h4>Commission Name</h4>
-                  <h6 className=""> {this.state.data.comision_name}</h6>
-                </Col>
-                <Col md="4" sm="12" className="mb-4">
-                  <h4>Product Name</h4>
-                  <h6 className=""> {this.state.data.product?.productname}</h6>
-                </Col>
-              </Row>
-              <Row className="ml-4">
-                <Col md="6" sm="12" className="mb-4">
-                  <h4>Commission Rate</h4>
-                  <h6 className=""> {this.state.data.comision_rate}</h6>
-                </Col>
-                <Col md="6" sm="12" className="mb-4">
-                  <h4>Status</h4>
-                  <h6 className=""> {this.state.data.status}</h6>
-                </Col>
-              </Row>
+            <Row className="ml-4">
+            <Col sm="9" md="12" lg="12">
+            <Row className='mt-1'>
+            <Col sm="4" md="4" lg="4">
+            <span>Doctor Name</span>
+            </Col>
+            <Col sm="4" md="4" lg="4">
+            <span>{this.state.data.selectdoctor}</span>
+            </Col>
+            </Row>
+          
+            
+            <Row className='mt-1'>
+            <Col sm="4" md="4" lg="4">
+            <span>Commission Value</span>
+            </Col>
+            <Col sm="4" md="4" lg="4">
+            <span>{this.state.data.commissionvalue}</span>
+            </Col>
+            </Row>
+            </Col>
+          </Row>
             </CardBody>
           </Card>
         </div>
