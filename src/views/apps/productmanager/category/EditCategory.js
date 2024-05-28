@@ -75,7 +75,7 @@ export class EditCategory extends Component {
       })
       .catch((error) => {
         console.log(error.response);
-      });
+      }); 
   }
 
   render() {
