@@ -17,9 +17,10 @@ const Drsuggestedcategory = (props) => {
     const fetchUserData = async () => {
       try {
         const { id } = props.match.params;
-        const response = await axiosConfig.get(`/user/viewoneuser/${id}`);
-        const userData = response.data.data;
+        const response = await axiosConfig.get(`/drSuggest-subCategory/viewbyid/${id}`);
+        const userData = response.data?.suggestSubCategory;
         setUserData(userData);
+        console.log(userData);
       } catch (error) {
         console.log(error.response);
       }
@@ -59,7 +60,7 @@ const Drsuggestedcategory = (props) => {
                   <span>Dr. Name</span>
                   </Col>
                   <Col sm="4" md="4" lg="4">
-                  <span>sumit</span>
+                  <span>{userData.doctorName}</span>
                   </Col>
                   </Row>
                   <Row className='mt-1'>
@@ -67,7 +68,7 @@ const Drsuggestedcategory = (props) => {
                   <span>Category Name</span>
                   </Col>
                   <Col sm="4" md="4" lg="4">
-                  <span>data</span>
+                  <span>{userData.categoryName}</span>
                   </Col>
                   </Row>
                   <Row className='mt-1'>
@@ -75,17 +76,10 @@ const Drsuggestedcategory = (props) => {
                   <span>Sub-Suggest Category</span>
                   </Col>
                   <Col sm="4" md="4" lg="4">
-                  <span>dummy</span>
+                  <span>{userData.subCategory}</span>
                   </Col>
                   </Row>
-                  <Row className='mt-1'>
-                  <Col sm="4" md="4" lg="4">
-                  <span>Status</span>
-                  </Col>
-                  <Col sm="4" md="4" lg="4">
-                  <span>Active</span>
-                  </Col>
-                  </Row>
+                  
                   </Col>
                 </Row>
               </CardBody>

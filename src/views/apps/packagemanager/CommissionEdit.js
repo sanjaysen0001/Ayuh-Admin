@@ -94,7 +94,7 @@ export class CommissionEdit extends Component {
               <Button
                 className=" btn btn-danger float-right"
                 onClick={() =>
-                  history.push("/appmanagement/category-list")
+                  history.push("/app/productmanager/category/commissionmangement/doctorcommission")
                 }
               >
                 Back

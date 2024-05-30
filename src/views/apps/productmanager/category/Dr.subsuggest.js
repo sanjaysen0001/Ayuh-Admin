@@ -23,6 +23,7 @@ import "../../../../assets/scss/pages/users.scss";
 import { Route } from "react-router-dom";
 import Breadcrumbs from "../../../../components/@vuexy/breadCrumbs/BreadCrumb";
 import ReactHtmlParser from "react-html-parser";
+import Swal from "sweetalert2";
 class DrSubCategoryList extends React.Component {
   state = {
     rowData: [],
@@ -73,11 +74,11 @@ class DrSubCategoryList extends React.Component {
         headerName: "Doctor Name",
         field: "name",
         filter: true,
-        width: 200,
+        width: 250,
         cellRendererFramework: (params) => {
           return (
             <div>
-              <span>sumit</span>
+              <span>{params.data.doctorName}</span>
             </div>
           );
         },
@@ -87,11 +88,11 @@ class DrSubCategoryList extends React.Component {
         headerName: "Category Name",
         field: "name",
         filter: true,
-        width: 200,
+        width: 250,
         cellRendererFramework: (params) => {
           return (
             <div>
-              <span>data</span>
+              <span>{params.data.categoryName}</span>
             </div>
           );
         },
@@ -102,29 +103,29 @@ class DrSubCategoryList extends React.Component {
         headerName: "Sub-Suggest Category",
         field: "desc",
         filter: true,
-        width: 200,
+        width: 250,
         cellRendererFramework: (params) => {
           return (
             <div className="d-flex align-items-center cursor-pointer">
-              <span>dummy</span>
+              <span>{params.data.subCategory}</span>
             </div>
           );
         },
       },
 
-      {
-        headerName: "Status",
-        field: "status",
-        filter: true,
-        width: 150,
-        cellRendererFramework: (params) => {
-          return (
-            <div className="d-flex align-items-center cursor-pointer">
-              <span>Inactive</span>
-            </div>
-          );
-        },
-      },
+      // {
+      //   headerName: "Status",
+      //   field: "status",
+      //   filter: true,
+      //   width: 150,
+      //   cellRendererFramework: (params) => {
+      //     return (
+      //       <div className="d-flex align-items-center cursor-pointer">
+      //         <span>Inactive</span>
+      //       </div>
+      //     );
+      //   },
+      // },
 
       {
         headerName: "Action",
@@ -166,9 +167,7 @@ class DrSubCategoryList extends React.Component {
                 size="25px"
                 color="red"
                 onClick={() => {
-                  let selectedData = this.gridApi.getSelectedRows();
                   this.runthisfunction(params.data._id);
-                  this.gridApi.updateRowData({ remove: selectedData });
                 }}
               />
             </div>
@@ -180,23 +179,41 @@ class DrSubCategoryList extends React.Component {
   async componentDidMount() {
     // let { id } = this.props.match.params;
 
-    await axiosConfig.get(`/admin/getproductcalegory`).then((response) => {
-      let rowData = response.data.data;
+    await axiosConfig.get(`/drSuggest-subCategory/view`).then((response) => {
+      let rowData = response.data?.suggestSubCategory;
       console.log(rowData);
       this.setState({ rowData });
     });
   }
 
-  async runthisfunction(id) {
-    console.log(id);
-    await axiosConfig.get(`/admin/delpdctCategory/${id}`).then(
-      (response) => {
-        console.log(response);
-      },
-      (error) => {
-        console.log(error);
+  runthisfunction(_id) {
+    console.log(_id);
+    Swal.fire({
+      title: "Do You Want To Delete Permanently?",
+      text: "This item will be deleted immediately",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Delete",
+      cancelButtonText: "Cancel",
+    }).then((result) => {
+      console.log(result);
+      if (result.isConfirmed) {
+        axiosConfig
+        .delete(`/drSuggest-subCategory/remove/${_id}`)
+        .then((response) => {
+          console.log(response.data.message);
+          window.location.reload();
+            
+          }) 
+          .catch((error) => {
+            console.log(error);
+          });
       }
-    );
+       
+    
+    });
   }
   onGridReady = (params) => {
     this.gridApi = params.api;
