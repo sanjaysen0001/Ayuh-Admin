@@ -84,7 +84,7 @@ export class Pharmacommissionedit extends Component {
       <Row className="m-2">
         <Col>
           <h1 col-sm-6 className="float-left">
-          Edit Doctor Commission
+          Edit Pharma Commission
 
           </h1>
         </Col>
@@ -94,7 +94,7 @@ export class Pharmacommissionedit extends Component {
               <Button
                 className=" btn btn-danger float-right"
                 onClick={() =>
-                  history.push("/appmanagement/category-list")
+                  history.push("/app/productmanager/category/commissionmangement/pharmacommission")
                 }
               >
                 Back

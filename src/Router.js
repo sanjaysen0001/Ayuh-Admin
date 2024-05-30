@@ -262,11 +262,12 @@ const CommissionEdit = lazy(() =>
   import("./views/apps/packagemanager/CommissionEdit")
 );
 const Pharmacommissionedit=lazy(()=>import("./views/apps/packagemanager/Pharmacommissionedit.js"))
+const Diagnosticcommissionedit=lazy(()=>import("./views/apps/packagemanager/Diagnosticcommissionedit.js"))
 const CommissionView = lazy(() =>
   import("./views/apps/packagemanager/CommissionView")
 );
 const Pharmacommissionview=lazy(()=>import("./views/apps/packagemanager/Pharmacommissionview.js"))
-
+const Diagnosticcommissionview=lazy(()=>import("./views/apps/packagemanager/Diagnosticcommissionview.js"))
 
 
 
@@ -1153,11 +1154,13 @@ class AppRouter extends React.Component {
               component={CommissionEdit}
             />
             <AppRoute path="/app/packagemanager/pharmacommissionedit/:id" component={Pharmacommissionedit}/>
+            <AppRoute path="/app/packagemanager/Diagnosticcommissionedit/:id" component={Diagnosticcommissionedit}/>
             <AppRoute
               path="/app/packagemanager/commissionview/:id"
               component={CommissionView}
             />
             <AppRoute path="/app/packagemanager/pharmacommissionview/:id" component={Pharmacommissionview}/>
+            <AppRoute path="/app/packagemanager/Diagnosticcommissionview/:id" component={Diagnosticcommissionview}/>
             <AppRoute
               path="/app/packagemanager/packageoffer"
               component={PackageOffer}

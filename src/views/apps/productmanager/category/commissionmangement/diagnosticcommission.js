@@ -19,8 +19,9 @@ import "../../../../../assets/scss/plugins/tables/_agGridStyleOverride.scss";
 import "../../../../../assets/scss/pages/users.scss";
 import { Route } from "react-router-dom";
 import Breadcrumbs from "../../../../../components/@vuexy/breadCrumbs/BreadCrumb";
+import Swal from "sweetalert2";
 
-class Diagnosticommission extends React.Component {
+class diagnosticcommission extends React.Component {
   state = {
     rowData: [],
     paginationPageSize: 20,
@@ -37,36 +38,36 @@ class Diagnosticommission extends React.Component {
         headerName: "S.No",
         valueGetter: "node.rowIndex + 1",
         field: "node.rowIndex + 1",
-        width: 100,
+        width: 120,
         filter: true,
         // checkboxSelection: true,
         // headerCheckboxSelectionFilteredOnly: true,
         // headerCheckboxSelection: true,
       },
 
-      // {
-      //   headerName: "Category Name",
-      //   field: "category",
-      //   filter: true,
-      //   width: 180,
-      //   cellRendererFramework: (params) => {
-      //     return (
-      //       <div>
-      //         <span>{params.data.product?.category?.name}</span>
-      //       </div>
-      //     );
-      //   },
-      // },
-
       {
-        headerName: "Commission Name",
-        field: "comision_name",
+        headerName: "Doctor Name",
+        field: "category",
         filter: true,
-        width: 200,
+        width: 380,
         cellRendererFramework: (params) => {
           return (
             <div>
-              <span>{params.data.comision_name}</span>
+              <span>{params.data?.selectdoctor}</span>
+            </div>
+          );
+        },
+      },
+
+      {
+        headerName: "Commission Value",
+        field: "comision_name",
+        filter: true,
+        width: 300,
+        cellRendererFramework: (params) => {
+          return (
+            <div>
+              <span>{params.data.commissionvalue}</span>
             </div>
           );
         },
@@ -86,37 +87,37 @@ class Diagnosticommission extends React.Component {
       //   },
       // },
 
-      {
-        headerName: "Commission Rate(%)",
-        field: "comision_rate",
-        filter: true,
-        width: 200,
-        cellRendererFramework: (params) => {
-          return (
-            <div>
-              <span>{params.data.comision_rate}</span>
-            </div>
-          );
-        },
-      },
+      // {
+      //   headerName: "Commission Rate(%)",
+      //   field: "comision_rate",
+      //   filter: true,
+      //   width: 200,
+      //   cellRendererFramework: (params) => {
+      //     return (
+      //       <div>
+      //         <span>{params.data.comision_rate}</span>
+      //       </div>
+      //     );
+      //   },
+      // },
 
-      {
-        headerName: "Status",
-        field: "status",
-        // filter: true,
-        width: 100,
-        cellRendererFramework: (params) => {
-          return params.value === "Active" ? (
-            <div className="badge badge-pill badge-success">
-              {params.data.status}
-            </div>
-          ) : params.value === "Inactive" ? (
-            <div className="badge badge-pill btn-primary">
-              {params.data.status}
-            </div>
-          ) : null;
-        },
-      },
+      // {
+      //   headerName: "Status",
+      //   field: "status",
+      //   // filter: true,
+      //   width: 100,
+      //   cellRendererFramework: (params) => {
+      //     return params.value === "Active" ? (
+      //       <div className="badge badge-pill badge-success">
+      //         {params.data.status}
+      //       </div>
+      //     ) : params.value === "Inactive" ? (
+      //       <div className="badge badge-pill btn-primary">
+      //         {params.data.status}
+      //       </div>
+      //     ) : null;
+      //   },
+      // },
 
       {
         headerName: "Action",
@@ -133,7 +134,7 @@ class Diagnosticommission extends React.Component {
                     color="green"
                     onClick={() =>
                       history.push(
-                        `/app/packagemanager/commissionview/${params.data._id}`
+                        `/app/packagemanager/Diagnosticcommissionview/${params.data._id}`
                       )
                     }
                   />
@@ -141,13 +142,13 @@ class Diagnosticommission extends React.Component {
               />
               <Route
                 render={({ history }) => (
-                  <Edit
+                  <Edit 
                     className="mr-50"
                     size="25px"
                     color="blue"
                     onClick={() =>
                       history.push(
-                        `/app/packagemanager/commissionedit/${params.data._id}`
+                        `/app/packagemanager/Diagnosticcommissionedit/${params.data._id}`
                       )
                     }
                   />
@@ -158,9 +159,7 @@ class Diagnosticommission extends React.Component {
                 size="25px"
                 color="red"
                 onClick={() => {
-                  let selectedData = this.gridApi.getSelectedRows();
                   this.runthisfunction(params.data._id);
-                  this.gridApi.updateRowData({ remove: selectedData });
                 }}
               />
             </div>
@@ -169,19 +168,43 @@ class Diagnosticommission extends React.Component {
       },
     ],
   };
-  // async componentDidMount() {
-  //   await axiosConfig.get(`/admin/comisionList`).then((response) => {
-  //     let rowData = response.data.data;
-  //     console.log(rowData);
-  //     this.setState({ rowData });
-  //   });
-  // }
-  async runthisfunction(id) {
-    console.log(id);
-    await axiosConfig.get(`/admin/dltComision/${id}`).then((response) => {
-      console.log(response);
+  async componentDidMount() {
+    await axiosConfig.get(`/diagonistic-commision/diashowall`).then((response) => {
+      let rowData = response.data.data;
+      console.log(rowData);
+      this.setState({ rowData });
     });
   }
+  runthisfunction(_id) {
+    console.log(_id);
+    Swal.fire({
+      title: "Do You Want To Delete Permanently?",
+      text: "This item will be deleted immediately",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Delete",
+      cancelButtonText: "Cancel",
+    }).then((result) => {
+      console.log(result);
+      if (result.isConfirmed) {
+        axiosConfig
+        .delete(`/diagonistic-commision/diadeleteby/${_id}`)
+        .then((response) => {
+          console.log(response.data.message);
+          window.location.reload();
+            
+          }) 
+          .catch((error) => {
+            console.log(error);
+          });
+      }
+       
+    
+    });
+  }
+
 
   onGridReady = (params) => {
     this.gridApi = params.api;
@@ -223,7 +246,7 @@ class Diagnosticommission extends React.Component {
                 <Row className="m-2">
                   <Col>
                     <h1 sm="6" className="float-left">
-                     Diagnostic Commission Set
+                       Diagnostic Commission Set
                     </h1>
                   </Col>
                   <Col>
@@ -232,7 +255,7 @@ class Diagnosticommission extends React.Component {
                         <Button
                           className=" btn btn-success float-right"
                           onClick={() =>
-                            history.push("/app/productmanager/category/commissionmangement/diagnosticcomissionform")
+                            history.push("/app/productmanager/category/commissionmangement/pharmacomissionform")
                           }
                         >
                           Add
@@ -341,4 +364,4 @@ class Diagnosticommission extends React.Component {
     );
   }
 }
-export default Diagnosticommission;
+export default diagnosticcommission;
