@@ -16,7 +16,6 @@ import Breadcrumbs from "../../../components/@vuexy/breadCrumbs/BreadCrumb";
 import axios from "axios";
 import swal from "sweetalert";
 import axiosConfig from "../../../axiosConfig";
-// import { Route } from "react-router-dom";
 
 class Profile extends React.Component {
   constructor(props) {
@@ -42,23 +41,25 @@ class Profile extends React.Component {
   };
 
   componentDidMount() {
-    // let { id } = this.props.match.params;
+    let AyuhAdminPanel = JSON.parse(sessionStorage.getItem("AyuhAdminPanel"));
     axiosConfig
-      .get(`/admin/viewoneadmin/64535cc3c84d5b23e0102d4f`)
+      .get(`/admin/viewById/${AyuhAdminPanel?._id}`)
       .then((response) => {
-        //console.log(response.data);
-        console.log(response);
+        console.log(response.data.admin);
+        const { name, mobileNo, email, image, password, cnfmPassword } =
+          response.data.admin;
+        // console.log(image);
         this.setState({
-          data: response.data.data,
-          name: response.data.data.name,
-          email: response.data.data.email,
-          mobile: response.data.data.mobile,
-          password: response.data.data.password,
-          cnfmPassword: response.data.data.cnfmPassword,
+          name: name,
+          email: email,
+          mobile: mobileNo,
+          // password: password,
+          // cnfmPassword: cnfmPassword,
+          image: image,
         });
       })
       .catch((error) => {
-        console.log(error.response);
+        console.log(error);
       });
   }
 
@@ -68,15 +69,14 @@ class Profile extends React.Component {
 
   submitHandler = (e) => {
     e.preventDefault();
-    console.log(this.state.data);
     const data = new FormData();
     data.append("name", this.state.name);
     data.append("email", this.state.email);
-    data.append("mobile", this.state.mobile);
-    data.append("password", this.state.password);
-    data.append("cnfmPassword", this.state.cnfmPassword);
+    data.append("mobileNo", this.state.mobile);
+    // data.append("password", this.state.password);
+    // data.append("cnfmPassword", this.state.cnfmPassword);
     if (this.state.selectedFile !== null) {
-      data.append("adminimg", this.state.selectedFile, this.state.selectedName);
+      data.append("image", this.state.selectedFile, this.state.selectedName);
     }
 
     for (var value of data.values()) {
@@ -86,17 +86,18 @@ class Profile extends React.Component {
     for (var key of data.keys()) {
       console.log(key);
     }
+    let AyuhAdminPanel = JSON.parse(sessionStorage.getItem("AyuhAdminPanel"));
     // let { id } = this.props.match.params;
     axiosConfig
-      .post(`/admin/editprofile/64535cc3c84d5b23e0102d4f`, data, {
+      .put(`/admin/update/${AyuhAdminPanel?._id}`, data, {
         headers: {
-          "ad-token": localStorage.getItem("ad-token"),
+          "ad-token": sessionStorage.getItem("ad-token"),
         },
       })
       .then((response) => {
-        console.log(response.data.message);
+        console.log(response.data);
         swal("Success!", "Submitted SuccessFull!", "success");
-        window.location.reload("/#/pages/profile");
+        // window.location.reload("/#/pages/profile");
       })
 
       .catch((error) => {
@@ -118,23 +119,21 @@ class Profile extends React.Component {
               <Card className="bg-authentication rounded-0 mb-0 w-100">
                 <div className="profile-img text-center st-1">
                   <img
-                    src={this.state.data.adminimg}
+                    src={`https://sample.rupioo.com/Images/${this.state.image}`}
                     alt="adminimg"
                     className="img-fluid img-border rounded-circle box-shadow-1"
-                    width="150"
+                    width={150}
+                    height={150}
                   />
                   <ul className="lst-1">
                     <li className="lst-2">
-                      Name:{" "}
-                      <span className="lst-3">{this.state.data.name}</span>
+                      Name: <span className="lst-3">{this.state.name}</span>
                     </li>
                     <li className="lst-2">
-                      Mobile:{" "}
-                      <span className="lst-3">{this.state.data.mobile}</span>
+                      Mobile: <span className="lst-3">{this.state.mobile}</span>
                     </li>
                     <li className="lst-2">
-                      Email:{" "}
-                      <span className="lst-3">{this.state.data.email}</span>
+                      Email: <span className="lst-3">{this.state.email}</span>
                     </li>
                   </ul>
                 </div>
@@ -181,7 +180,7 @@ class Profile extends React.Component {
                             value={this.state.mobile}
                             onChange={this.changeHandler}
                           />
-                          <Label>Password</Label>
+                          {/* <Label>Password</Label>
                           <Input
                             type="password"
                             name="password"
@@ -196,7 +195,7 @@ class Profile extends React.Component {
                             placeholder="Reset password"
                             value={this.state.cnfmPassword}
                             onChange={this.changeHandler}
-                          />
+                          /> */}
                           <Label>User Image</Label>
                           <Input
                             className="form-control"

@@ -1,4 +1,3 @@
-
 import React, { Component } from "react";
 import {
   Card,
@@ -12,7 +11,7 @@ import {
   FormGroup,
   // CustomInput,
 } from "reactstrap";
- 
+
 import axiosConfig from "../../../../../axiosConfig";
 import "react-toastify/dist/ReactToastify.css";
 import { Route } from "react-router-dom";
@@ -25,10 +24,9 @@ export class DrForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-     
-      selectdoctor:"",
+      selectdoctor: "",
       commissionvalue: "",
-      categories: [], // Assuming you have a way to load these categories
+      categories: [],
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -39,7 +37,7 @@ export class DrForm extends Component {
     axiosConfig
       .get("/doctorPanel/viewAll")
       .then((response) => {
-        const datas=response.data?.data
+        const datas = response.data?.data;
         this.setState({ categories: datas });
         console.log(datas);
       })
@@ -59,7 +57,7 @@ export class DrForm extends Component {
     const { selectdoctor, commissionvalue } = this.state;
 
     // Validate form data
-    if (!selectdoctor || !commissionvalue )  {
+    if (!selectdoctor || !commissionvalue) {
       alert("Please fill in all fields");
       return;
     }
@@ -69,20 +67,18 @@ export class DrForm extends Component {
       .post("/doctor-commision/insert", {
         selectdoctor: selectdoctor,
         commissionvalue: commissionvalue,
-        
       })
       .then((response) => {
         console.log(response.data);
 
-        this.setState({ selectdoctor: "", commissionvalue: ""});
+        this.setState({ selectdoctor: "", commissionvalue: "" });
         Swal.fire({
           icon: "success",
           title: "Success!",
-          text: "Sub-Category Add successfully.",
+          text: "Add successfully.",
           confirmButtonColor: "#3085d6",
           confirmButtonText: "OK",
         });
-        // window.location.reload();
       })
       .catch((error) => {
         Swal.fire({
@@ -109,7 +105,11 @@ export class DrForm extends Component {
                 render={({ history }) => (
                   <Button
                     className=" btn btn-danger float-right"
-                    onClick={() => history.push("/app/productmanager/category/commissionmangement/doctorcommission")}
+                    onClick={() =>
+                      history.push(
+                        "/app/productmanager/category/commissionmangement/doctorcommission"
+                      )
+                    }
                   >
                     Back
                   </Button>
@@ -118,67 +118,60 @@ export class DrForm extends Component {
             </Col>
           </Row>
           <CardBody>
-          <Form onSubmit={this.handleSubmit}>
-          <Row className="ml-3 mr-3">
-          <Col lg="6" md="6" sm="6" className="mb-2">
-          <FormGroup  className="align-items-center">
-          
-          
-            <label htmlFor="categorySelect">Select Doctor</label>
-            <br />
-            <select
-              className="form-select w-100"
-              style={{
-                height: "37px",
-                border: "1px solid #d9d9d9",
-                borderRadius: "5px",
-              }}
-              aria-label="Default select example"
-              id="categorySelect"
-              name="selectdoctor"
-              value={selectdoctor}
-              onChange={this.handleChange}
-            >
-              <option value="" disabled>
-                --Select--
-              </option>
-              {categories.map((doctor) => (
-                <option key={doctor.id} value={doctor.id}>
-                  {doctor.fullname
-                    }
-                </option>
-              ))}
-            </select>
-         
-          </FormGroup>
-          </Col>
-          <Col lg="6" md="6" sm="6" >
-          <FormGroup >
-         
-          
-          <label htmlFor="categorySelect">  Commission Value</label>
-            <br />
-            <Input
-              type="number"
-              name="commissionvalue"
-              id="commissionValue"
-              placeholder="Enter commission value"
-              value={commissionvalue}
-              onChange={this.handleChange}
-              required
-            />
-         
-        </FormGroup>
-        </Col>
-        </Row>
-          <FormGroup className="ml-3 mr-3">
-            <Col className="text-right">
-              <Button color="primary" type="submit">
-                Submit
-              </Button>
-            </Col>
-          </FormGroup>
-          </Form>
+            <Form onSubmit={this.handleSubmit}>
+              <Row className="ml-3 mr-3">
+                <Col lg="6" md="6" sm="6" className="mb-2">
+                  <FormGroup className="align-items-center">
+                    <label htmlFor="categorySelect">Select Doctor</label>
+                    <br />
+                    <select
+                      className="form-select w-100"
+                      style={{
+                        height: "37px",
+                        border: "1px solid #d9d9d9",
+                        borderRadius: "5px",
+                      }}
+                      aria-label="Default select example"
+                      id="categorySelect"
+                      name="selectdoctor"
+                      value={selectdoctor}
+                      onChange={this.handleChange}
+                    >
+                      <option value="" disabled>
+                        --Select--
+                      </option>
+                      {categories.map((doctor) => (
+                        <option key={doctor.id} value={doctor.id}>
+                          {doctor.fullname}
+                        </option>
+                      ))}
+                    </select>
+                  </FormGroup>
+                </Col>
+                <Col lg="6" md="6" sm="6">
+                  <FormGroup>
+                    <label htmlFor="categorySelect"> Commission Value</label>
+                    <br />
+                    <Input
+                      type="number"
+                      name="commissionvalue"
+                      id="commissionValue"
+                      placeholder="Enter commission value"
+                      value={commissionvalue}
+                      onChange={this.handleChange}
+                      required
+                    />
+                  </FormGroup>
+                </Col>
+              </Row>
+              <FormGroup className="ml-3 mr-3">
+                <Col className="text-right">
+                  <Button color="primary" type="submit">
+                    Submit
+                  </Button>
+                </Col>
+              </FormGroup>
+            </Form>
           </CardBody>
         </Card>
       </div>
@@ -186,8 +179,3 @@ export class DrForm extends Component {
   }
 }
 export default DrForm;
-
-
-
-
-

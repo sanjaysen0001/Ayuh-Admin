@@ -5,7 +5,6 @@ import {
   Input,
   Row,
   Col,
-
   Button,
   UncontrolledDropdown,
   DropdownMenu,
@@ -21,7 +20,6 @@ import { Eye, Edit, Trash2, ChevronDown } from "react-feather";
 import "../../../../assets/scss/plugins/tables/_agGridStyleOverride.scss";
 import "../../../../assets/scss/pages/users.scss";
 import { Route } from "react-router-dom";
-
 
 class Pharmacategorylist extends React.Component {
   state = {
@@ -69,7 +67,6 @@ class Pharmacategorylist extends React.Component {
         },
       },
 
-
       {
         headerName: "Category Name",
         field: "productname",
@@ -84,60 +81,19 @@ class Pharmacategorylist extends React.Component {
         },
       },
 
-
-      // {
-      //   headerName: "Category Name",
-      //   field: "name",
-      //   filter: true,
-      //   width: 200,
-      //   cellRendererFramework: (params) => {
-      //     return (
-      //       <div className="d-flex align-items-center cursor-pointer">
-      //         <span>{params.data.category?.name}</span>
-      //       </div>
-      //     );
+      //   {
+      //     headerName: "Description",
+      //     field: "desc",
+      //     filter: true,
+      //     width: 200,
+      //     cellRendererFramework: (params) => {
+      //       return (
+      //         <div>
+      //           <span>{ReactHtmlParser(params.data.desc)}</span>
+      //         </div>
+      //       );
+      //     },
       //   },
-      // },
-      // {
-      //   headerName: " Price",
-      //   field: "price",
-      //   filter: true,
-      //   width: 150,
-      //   cellRendererFramework: (params) => {
-      //     return (
-      //       <div>
-      //         <span>{params.data.price}</span>
-      //       </div>
-      //     );
-      //   },
-      // },
-    //   {
-    //     headerName: "Description",
-    //     field: "desc",
-    //     filter: true,
-    //     width: 200,
-    //     cellRendererFramework: (params) => {
-    //       return (
-    //         <div>
-    //           <span>{ReactHtmlParser(params.data.desc)}</span>
-    //         </div>
-    //       );
-    //     },
-    //   },
-    //   {
-    //     headerName: "Limit",
-    //     field: "limit",
-    //     filter: true,
-    //     width: 180,
-    //     cellRendererFramework: (params) => {
-    //       console.log(params);
-    //       return (
-    //         <div>
-    //           <span>{params.data?.limit}</span>
-    //         </div>
-    //       );
-    //     },
-    //   },
 
       {
         headerName: "Status",
@@ -209,10 +165,8 @@ class Pharmacategorylist extends React.Component {
     ],
   };
   async componentDidMount() {
-    // let { id } = this.props.match.params;
-
-    await axiosConfig.get(`/admin/getProduct`).then((response) => {
-      let rowData = response.data.data;
+    await axiosConfig.get(`PharmaManagement/category-list`).then((response) => {
+      let rowData = response.data;
       console.log(rowData);
       this.setState({ rowData });
     });
@@ -268,7 +222,7 @@ class Pharmacategorylist extends React.Component {
                 <Row className="m-2">
                   <Col>
                     <h1 sm="6" className="float-left">
-                    Category List
+                      Category List
                     </h1>
                   </Col>
                   <Col>
@@ -277,9 +231,7 @@ class Pharmacategorylist extends React.Component {
                         <Button
                           className=" btn btn-success float-right"
                           onClick={() =>
-                            history.push(
-                              "/product/addpharmacategory"
-                            )
+                            history.push("/product/addpharmacategory")
                           }
                         >
                           Add

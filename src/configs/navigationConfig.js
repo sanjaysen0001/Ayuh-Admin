@@ -36,12 +36,28 @@ const navigationConfig = [
         navLink: "/userList/patient-list",
       },
       {
+        id: "DemoCall",
+        title: "Video Call",
+        type: "item",
+        icon: <Icon.Users color="blue" size={12} />,
+        permissions: ["admin", "editor"],
+        navLink: "/call/DemoCall",
+      },
+      {
+        id: "myVideo",
+        title: "myVideo",
+        type: "item",
+        icon: <Icon.Users color="blue" size={12} />,
+        permissions: ["admin", "editor"],
+        navLink: "/call/myVideo",
+      },
+      {
         id: "doctorList",
         title: "Doctor List",
         type: "item",
         icon: <Icon.User color="blue" size={12} />,
         permissions: ["admin", "editor"],
-        navLink: "/userList/doctor-list",
+        navLink: "/userList/doctorList",
       },
       {
         id: "pharmaList",
@@ -61,183 +77,11 @@ const navigationConfig = [
       },
     ],
   },
-
-  // {
-  //   type: "groupHeader",
-  //   groupTitle: "Kundli Management",
-  // },
-
-  // {
-  //   id: "kundlidetail",
-  //   title: "Kundli Detail Users",
-  //   type: "item",
-  //   icon: <Icon.BarChart2 size={20} />,
-  //   permissions: ["admin", "editor"],
-  //   navLink: "/app/kundlimanage/kundliuserdetail",
-  // },
-
-  // {
-  //   id: "kundlimatch",
-  //   title: "Kundli Match Users",
-  //   type: "item",
-  //   icon: <Icon.BarChart2 size={20} />,
-  //   permissions: ["admin", "editor"],
-  //   navLink: "/app/kundlimanage/kundlimatchlist",
-  // },
-
-  // {
-  //   type: "groupHeader",
-  //   groupTitle: "Horoscopes",
-  // },/
-  // {
-  //   id: "horoscopes",
-  //   title: "Horoscopes",
-  //   type: "collapse",
-  //   icon: <Icon.Box size={20} />,
-  //   children: [
-  //     {
-  //       id: "horoscopeList",
-  //       title: "Horoscope ",
-  //       type: "item",
-  //       icon: <Icon.FileText size={12} />,
-  //       permissions: ["admin", "editor"],
-  //       navLink: "/app/horoscopes/horoscopesList",
-  //     },
-
-  //     //     {
-  //     //       id: "todayHoroscopeList",
-  //     //       title: "Today Horoscope",
-  //     //       type: "item",
-  //     //       icon: <Icon.FileText size={12} />,
-  //     //       permissions: ["admin", "editor"],
-  //     //       navLink: "/app/horoscopes/todayshoroscope/todayHoroscopeList",
-  //     //     },
-
-  //     //     {
-  //     //       id: "weeklyHoroscopeList",
-  //     //       title: "Weekly Horoscope",
-  //     //       type: "item",
-  //     //       icon: <Icon.FileText size={12} />,
-  //     //       permissions: ["admin", "editor"],
-  //     //       navLink: "/app/horoscopes/weeklyhoroscope/weeklyHoroscopeList",
-  //     //     },
-
-  //     //     {
-  //     //       id: "monthlyHoroscopeList",
-  //     //       title: "Monthly Horoscope",
-  //     //       type: "item",
-  //     //       icon: <Icon.FileText size={12} />,
-  //     //       permissions: ["admin", "editor"],
-  //     //       navLink: "/app/horoscopes/monthlyhoroscope/monthlyHoroscopeList",
-  //     //     },
-
-  //     //     {
-  //     //       id: "yearlyHoroscopeList",
-  //     //       title: "Yearly Horoscope",
-  //     //       type: "item",
-  //     //       icon: <Icon.FileText size={12} />,
-  //     //       permissions: ["admin", "editor"],
-  //     //       navLink: "/app/horoscopes/yearlyhoroscope/yearlyHoroscopeList",
-  //     //     },
-
-  //     //     {
-  //     //       id: "dailyHoroscopeList",
-  //     //       title: "Daily Horoscope",
-  //     //       type: "item",
-  //     //       icon: <Icon.FileText size={12} />,
-  //     //       permissions: ["admin", "editor"],
-  //     //       navLink: "/app/horoscopes/dailyhoroscope/dailyHoroscopeList",
-  //     //     },
-
-  //     //     {
-  //     //       id: "tomorrowHoroscopeList",
-  //     //       title: "Tomorrow Horoscope",
-  //     //       type: "item",
-  //     //       icon: <Icon.FileText size={12} />,
-  //     //       permissions: ["admin", "editor"],
-  //     //       navLink: "/app/horoscopes/tomorrowhoroscope/tomorrowHoroscopeList",
-  //     //     },
-
-  //     //     {
-  //     //       id: "yesterdayHoroscopeList",
-  //     //       title: "Yesterday Horoscope",
-  //     //       type: "item",
-  //     //       icon: <Icon.FileText size={12} />,
-  //     //       permissions: ["admin", "editor"],
-  //     //       navLink: "/app/horoscopes/yesterdayhoroscope/yesterdayHoroscopeList",
-  //     //     },
-
-  //     //     // {
-  //     //     //   id: "YearlyHoroscopeList",
-  //     //     //   title: "Yearly Horoscope",
-  //     //     //   type: "item",
-  //     //     //   icon: <Icon.FileText size={20} />,
-  //     //     //   permissions: ["admin", "editor"],
-  //     //     //   navLink: "/app/horoscopes/yearlyhoroscope/YearlyHoroscopeList",
-  //     //     // },
-  //   ],
-  // },
-  // {
-  //   id: "horoscopesList",
-  //   title: "Horoscopes List44",
-  //   type: "item",
-  //   icon: <Icon.Box size={20} />,
-  //   permissions: ["admin", "editor"],
-  //   navLink: "/app/horoscopes/horoscopesList",
-  // },
-
-  // {
-  //   id: "horoscopeCategoryList",
-  //   title: "Horoscope Category",
-  //   type: "item",
-  //   icon: <Icon.Box size={20} />,
-  //   permissions: ["admin", "editor"],
-  //   navLink: "/app/horoscopecategory/horoscopeCategoryList",
-  // },
-  // {
-  //   id: "rashimanagement",
-  //   title: "Rashi Management",
-  //   type: "collapse",
-  //   icon: <Icon.BarChart2 size={20} />,
-  //   children: [
-  //     {
-  //       id: "rashi",
-  //       title: "Rashi List",
-  //       type: "item",
-  //       icon: <Icon.Circle size={12} />,
-  //       permissions: ["admin", "editor"],
-  //       navLink: "/app/rashimanagement/rashi/rashiList",
-  //     },
-  //     {
-  //       id: "rashiHoroscopeList",
-  //       title: "Rashi Horoscope List",
-  //       type: "item",
-  //       icon: <Icon.Circle size={12} />,
-  //       permissions: ["admin", "editor"],
-  //       navLink: "/app/rashimanagement/rashihoroscope/rashiHoroscopeList",
-  //     },
-  //   ],
-  // },
-
-  // {
-  //   type: "groupHeader",
-  //   groupTitle: "Applied Refund",
-  // },
-
-  // {
-  //   id: "refund applied",
-  //   title: "Refund Applied",
-  //   type: "item",
-  //   icon: <Icon.List color="green" size={20} />,
-  //   permissions: ["admin", "editor"],
-  //   navLink: "/app/ordermanage/refundlist",
-  // },
-
   {
     id: "appmanagement",
     title: "App Management List ",
     type: "collapse",
-    icon:  <Icon.Box color="green" size={20} />,
+    icon: <Icon.Box color="green" size={20} />,
     children: [
       {
         id: "category",
@@ -298,7 +142,6 @@ const navigationConfig = [
     ],
   },
 
-
   // {
   //   type: "groupHeader",
   //   groupTitle: "Order Management",
@@ -308,7 +151,7 @@ const navigationConfig = [
     id: "appointments",
     title: "Appointments",
     type: "collapse",
-    icon: <Icon.Box  color="green"  size={20} />,
+    icon: <Icon.Box color="green" size={20} />,
     permissions: ["admin", "editor"],
     // navLink: "/app/ordermanage/allorderlist",
     children: [
@@ -355,13 +198,13 @@ const navigationConfig = [
     id: "pharmamanagement",
     title: "Pharma Management",
     type: "collapse",
-    icon: <Icon.Box  color="green" size={20} />,
+    icon: <Icon.Box color="green" size={20} />,
     children: [
       {
         id: "category ",
         title: "Category List",
         type: "item",
-        icon: <Icon.Circle  color="black" size={10} />,
+        icon: <Icon.Circle color="black" size={10} />,
         permissions: ["admin", "editor"],
         navLink: "/PharmaManagement/category-list",
       },
@@ -369,7 +212,7 @@ const navigationConfig = [
         id: "medicine ",
         title: "Medicine List",
         type: "item",
-        icon: <Icon.Circle  color="black" size={10} />,
+        icon: <Icon.Circle color="black" size={10} />,
         permissions: ["admin", "editor"],
         navLink: "/PharmaManagement/Medicine-list",
       },
@@ -377,7 +220,7 @@ const navigationConfig = [
         id: "order  ",
         title: "Order List",
         type: "item",
-        icon: <Icon.Circle  color="black" size={10} />,
+        icon: <Icon.Circle color="black" size={10} />,
         permissions: ["admin", "editor"],
         navLink: "/PharmaManagement/Order-list",
       },
@@ -385,7 +228,7 @@ const navigationConfig = [
         id: "medicinestock  ",
         title: "Medicine Stock List",
         type: "item",
-        icon: <Icon.Circle  color="black" size={10} />,
+        icon: <Icon.Circle color="black" size={10} />,
         permissions: ["admin", "editor"],
         navLink: "/PharmaManagement/Medicin-stock-list",
       },
@@ -393,7 +236,7 @@ const navigationConfig = [
         id: "supplierinvoice  ",
         title: "Supplier Invoice",
         type: "item",
-        icon: <Icon.Circle  color="black" size={10} />,
+        icon: <Icon.Circle color="black" size={10} />,
         permissions: ["admin", "editor"],
         navLink: "/PharmaManagement/supplierinvoicelist",
       },
@@ -507,18 +350,17 @@ const navigationConfig = [
   //   navLink: "/app/askQuestionList",
   // },
 
-
   {
     id: "diagnosticsmanagement",
     title: "Diagnostics Management",
     type: "collapse",
-    icon: <Icon.Box  color="green" size={20} />,
+    icon: <Icon.Box color="green" size={20} />,
     children: [
       {
         id: "test category  ",
         title: " Test Category List",
         type: "item",
-        icon: <Icon.Circle  color="black" size={10} />,
+        icon: <Icon.Circle color="black" size={10} />,
         permissions: ["admin", "editor"],
         navLink: "/diagnosticmanagement/testcategorylist",
       },
@@ -526,7 +368,7 @@ const navigationConfig = [
         id: "testlist ",
         title: "Test List",
         type: "item",
-        icon: <Icon.Circle  color="black" size={10} />,
+        icon: <Icon.Circle color="black" size={10} />,
         permissions: ["admin", "editor"],
         navLink: "/diagnosticmanagement/testlist",
       },
@@ -534,7 +376,7 @@ const navigationConfig = [
         id: "report order   ",
         title: "Report Order List",
         type: "item",
-        icon: <Icon.Circle  color="black" size={10} />,
+        icon: <Icon.Circle color="black" size={10} />,
         permissions: ["admin", "editor"],
         navLink: "/diagnosticmanagement/orderlistdiagno",
       },
@@ -542,7 +384,7 @@ const navigationConfig = [
         id: "suppliersinvoice  ",
         title: "Suppliers Invoice",
         type: "item",
-        icon: <Icon.Circle  color="black" size={10} />,
+        icon: <Icon.Circle color="black" size={10} />,
         permissions: ["admin", "editor"],
         navLink: "/diagnostic/supplierinvoicelistdiag",
       },
@@ -552,7 +394,6 @@ const navigationConfig = [
   //   type: "groupHeader",
   //   groupTitle: "Pharmacy Management",
   // },
-
 
   {
     id: "ratinglist",
@@ -589,12 +430,11 @@ const navigationConfig = [
     ],
   },
 
-
   {
     id: "blogmanagement",
     title: "Blog Management",
     type: "collapse",
-    icon: <Icon.LifeBuoy  color="black" size={20} />,
+    icon: <Icon.LifeBuoy color="black" size={20} />,
     children: [
       {
         id: "categorylist",
@@ -725,7 +565,8 @@ const navigationConfig = [
         type: "item",
         icon: <Icon.Briefcase size={12} />,
         permissions: ["admin", "editor"],
-        navLink: "/app/productmanager/category/commissionmangement/doctorcommission",
+        navLink:
+          "/app/productmanager/category/commissionmangement/doctorcommission",
       },
       {
         id: "pharmacommision",
@@ -733,7 +574,8 @@ const navigationConfig = [
         type: "item",
         icon: <Icon.Briefcase size={12} />,
         permissions: ["admin", "editor"],
-        navLink: "/app/productmanager/category/commissionmangement/pharmacommission",
+        navLink:
+          "/app/productmanager/category/commissionmangement/pharmacommission",
       },
       {
         id: "diagonistic commision",
@@ -741,11 +583,11 @@ const navigationConfig = [
         type: "item",
         icon: <Icon.Briefcase size={12} />,
         permissions: ["admin", "editor"],
-        navLink: "/app/productmanager/category/commissionmangement/diagnosticcommission",
+        navLink:
+          "/app/productmanager/category/commissionmangement/diagnosticcommission",
       },
     ],
   },
-
 
   {
     id: "Withdrawmanagement ",
@@ -788,12 +630,11 @@ const navigationConfig = [
     ],
   },
 
-
   {
     id: "Businessmanagement",
     title: "Business management",
     type: "collapse",
-    icon: <Icon.Grid  color="green"   size={20} />,
+    icon: <Icon.Grid color="green" size={20} />,
     children: [
       {
         id: "subscription plans",
@@ -891,7 +732,7 @@ const navigationConfig = [
       //   permissions: ["admin", "editor"],
       //   navLink: "/app/chat/chatList",
       // },
-       {
+      {
         id: "faqList",
         title: "FAQ",
         type: "item",
@@ -900,13 +741,13 @@ const navigationConfig = [
         navLink: "/app/pagesetup/faq/faqList",
       },
       {
-          id: "patienttickets",
-          title: "Patient Tickets",
-          type: "item",
-          icon: <Icon.MessageCircle color="red" size={12} />,
-          permissions: ["admin", "editor"],
-          // navLink: "/app/askQuestionList",
-        },
+        id: "patienttickets",
+        title: "Patient Tickets",
+        type: "item",
+        icon: <Icon.MessageCircle color="red" size={12} />,
+        permissions: ["admin", "editor"],
+        // navLink: "/app/askQuestionList",
+      },
     ],
   },
 
@@ -978,129 +819,129 @@ const navigationConfig = [
   //   navLink: "/app/coupons/couponslist",
   // },
 
-//   {
-//     id: "withdrawrequest",
-//     title: "Withdraw Request ",
-//     type: "item",
-//     icon: <GrTransaction color="red" size={20} />,
-//     permissions: ["admin", "editor"],
-//     navLink: "/app/withdraw/WithdrawRequest",
-//   },
-//   {
-//     id: "blogmngment",
-//     title: "Blog Management",
-//     type: "collapse",
-//     icon: <Icon.Package color="blue" size={20} />,
-//     children: [
-//       {
-//         id: "blogList",
-//         title: "Blog list",
-//         type: "item",
-//         icon: <Icon.Image size={20} />,
-//         permissions: ["admin", "editor"],
-//         // navLink: "/app/blogmngment/blog/blogList",
-//       },
-//       {
-//         id: "blogCateList",
-//         title: "Blog Category",
-//         type: "item",
-//         icon: <Icon.Image size={20} />,
-//         permissions: ["admin", "editor"],
-//         // navLink: "/app/blogmngment/blogCategory/blogCateList",
-//       },
-//     ],
-//   },
+  //   {
+  //     id: "withdrawrequest",
+  //     title: "Withdraw Request ",
+  //     type: "item",
+  //     icon: <GrTransaction color="red" size={20} />,
+  //     permissions: ["admin", "editor"],
+  //     navLink: "/app/withdraw/WithdrawRequest",
+  //   },
+  //   {
+  //     id: "blogmngment",
+  //     title: "Blog Management",
+  //     type: "collapse",
+  //     icon: <Icon.Package color="blue" size={20} />,
+  //     children: [
+  //       {
+  //         id: "blogList",
+  //         title: "Blog list",
+  //         type: "item",
+  //         icon: <Icon.Image size={20} />,
+  //         permissions: ["admin", "editor"],
+  //         // navLink: "/app/blogmngment/blog/blogList",
+  //       },
+  //       {
+  //         id: "blogCateList",
+  //         title: "Blog Category",
+  //         type: "item",
+  //         icon: <Icon.Image size={20} />,
+  //         permissions: ["admin", "editor"],
+  //         // navLink: "/app/blogmngment/blogCategory/blogCateList",
+  //       },
+  //     ],
+  //   },
 
-//   {
-//     id: "commissionset",
-//     title: "Commission Set",
-//     type: "item",
-//     // icon: <Icon.DollarSign size={20} />,
-//     icon: <FcMoneyTransfer color="" size={20} />,
-//     permissions: ["admin", "editor"],
-//     // navLink: "/app/packagemanager/commission",
-//   },
-//   {
-//     id: "commissionforall",
-//     title: "My Commission ",
-//     type: "item",
-//     // icon: <Icon.DollarSign size={20} />,
-//     icon: <FcMoneyTransfer color="" size={20} />,
-//     permissions: ["admin", "editor"],
-//     navLink: "/app/packagemanager/commissioncall",
-//   },
-//   {
-//     id: "payouts",
-//     title: "Payouts",
-//     type: "item",
-//     icon: <GiPayMoney color="green" size={20} />,
-//     permissions: ["admin", "editor"],
-//     navLink: "/app/report/payoutlist",
-//   },
+  //   {
+  //     id: "commissionset",
+  //     title: "Commission Set",
+  //     type: "item",
+  //     // icon: <Icon.DollarSign size={20} />,
+  //     icon: <FcMoneyTransfer color="" size={20} />,
+  //     permissions: ["admin", "editor"],
+  //     // navLink: "/app/packagemanager/commission",
+  //   },
+  //   {
+  //     id: "commissionforall",
+  //     title: "My Commission ",
+  //     type: "item",
+  //     // icon: <Icon.DollarSign size={20} />,
+  //     icon: <FcMoneyTransfer color="" size={20} />,
+  //     permissions: ["admin", "editor"],
+  //     navLink: "/app/packagemanager/commissioncall",
+  //   },
+  //   {
+  //     id: "payouts",
+  //     title: "Payouts",
+  //     type: "item",
+  //     icon: <GiPayMoney color="green" size={20} />,
+  //     permissions: ["admin", "editor"],
+  //     navLink: "/app/report/payoutlist",
+  //   },
 
-//   {
-//     id: "transaction",
-//     title: "All Transaction",
-//     type: "item",
-//     icon: <FaRupeeSign color="blue" size={20} />,
-//     permissions: ["admin", "editor"],
-//     navLink: "/app/transaction/transactionHistory",
-//   },
+  //   {
+  //     id: "transaction",
+  //     title: "All Transaction",
+  //     type: "item",
+  //     icon: <FaRupeeSign color="blue" size={20} />,
+  //     permissions: ["admin", "editor"],
+  //     navLink: "/app/transaction/transactionHistory",
+  //   },
 
-//   // {
-//   //   id: "ratinglist",
-//   //   title: "Doctor Rating and Review",
-//   //   type: "item",
-//   //   icon: <Icon.Star fill="yellow" size={20} />,
-//   //   permissions: ["admin", "editor"],
-//   //   navLink: "/app/reviewrating/ratinglist",
-//   // },
+  //   // {
+  //   //   id: "ratinglist",
+  //   //   title: "Doctor Rating and Review",
+  //   //   type: "item",
+  //   //   icon: <Icon.Star fill="yellow" size={20} />,
+  //   //   permissions: ["admin", "editor"],
+  //   //   navLink: "/app/reviewrating/ratinglist",
+  //   // },
 
-//   {
-//     type: "groupHeader",
-//     groupTitle: "Add Videos",
-//   },
-//   {
-//     id: "videoonweb",
-//     title: "Add Youtube video",
-//     type: "item",
-//     icon: <Icon.Video fill="red" color="red" size={20} />,
-//     permissions: ["admin", "editor"],
-//     navLink: "/app/youtubevideoadd",
-//   },
-//   // {
-//   //   type: "groupHeader",
-//   //   groupTitle: "Add Question Package",
-//   // },
-//   // {
-//   //   id: "Addpackage",
-//   //   title: "Add Question Package",
-//   //   type: "item",
-//   //   icon: <Icon.ArrowDownCircle size={20} />,
-//   //   permissions: ["admin", "editor"],
-//   //   navLink: "/app/user/addpackage",
-//   // },
-//   // {
-//   //   id: "walletcustom",
-//   //   title: "Customer Wallet",
-//   //   type: "item",
-//   //   icon: <Icon.DollarSign size={20} />,
-//   //   permissions: ["admin", "editor"],
-//   //   navLink: "/app/wallet/walletcustom",
-//   // },
-//   // {
-//   //   id: "wallettansaction",
-//   //   title: "Wallet Transaction",
-//   //   type: "item",
-//   //   icon: <Icon.DollarSign size={20} />,
-//   //   permissions: ["admin", "editor"],
-//   //   navLink: "/app/wallet/wallettransaction",
-//   // },
+  //   {
+  //     type: "groupHeader",
+  //     groupTitle: "Add Videos",
+  //   },
+  //   {
+  //     id: "videoonweb",
+  //     title: "Add Youtube video",
+  //     type: "item",
+  //     icon: <Icon.Video fill="red" color="red" size={20} />,
+  //     permissions: ["admin", "editor"],
+  //     navLink: "/app/youtubevideoadd",
+  //   },
+  //   // {
+  //   //   type: "groupHeader",
+  //   //   groupTitle: "Add Question Package",
+  //   // },
+  //   // {
+  //   //   id: "Addpackage",
+  //   //   title: "Add Question Package",
+  //   //   type: "item",
+  //   //   icon: <Icon.ArrowDownCircle size={20} />,
+  //   //   permissions: ["admin", "editor"],
+  //   //   navLink: "/app/user/addpackage",
+  //   // },
+  //   // {
+  //   //   id: "walletcustom",
+  //   //   title: "Customer Wallet",
+  //   //   type: "item",
+  //   //   icon: <Icon.DollarSign size={20} />,
+  //   //   permissions: ["admin", "editor"],
+  //   //   navLink: "/app/wallet/walletcustom",
+  //   // },
+  //   // {
+  //   //   id: "wallettansaction",
+  //   //   title: "Wallet Transaction",
+  //   //   type: "item",
+  //   //   icon: <Icon.DollarSign size={20} />,
+  //   //   permissions: ["admin", "editor"],
+  //   //   navLink: "/app/wallet/wallettransaction",
+  //   // },
 
-//   {
-//     type: "groupHeader",
-//     groupTitle: "CMS",
-//   },
+  //   {
+  //     type: "groupHeader",
+  //     groupTitle: "CMS",
+  //   },
 
   {
     id: "pagesetup",

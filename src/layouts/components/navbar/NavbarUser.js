@@ -19,34 +19,32 @@ const handleNavigation = (e, path) => {
 };
 
 const NavbarUser = () => {
-  const [adminimg, setAdminimg] = useState([]);
+  const [adminData, setAdminData] = useState({});
   // console.log(notifications);
 
   const tokenVerify = () => {
-    // let data = localStorage.getItem("ad-token");
+    let data = sessionStorage.getItem("ad-token");
 
-    // sessionStorage.clear();
-    // if (data === undefined || data === null) {
-    //   window.location.replace("/#/pages/login");
-    // }
+    if (data === undefined || data === null) {
+      sessionStorage.clear();
+      window.location.replace("/#/pages/login");
+    }
   };
 
   useEffect(() => {
-    // tokenVerify();
+    tokenVerify();
     async function getNotifications() {
-      try {
-        //axiosConfig.get(`/dlt_startup/${id}`)
-        let userId = localStorage.getItem("userId");
-        const data = await axiosConfig.get(
-          `/admin/viewoneadmin/64535cc3c84d5b23e0102d4f`
-        );
-        // /admin/viewoneadmin/${userId}
-        console.log(data.data.data);
-        setAdminimg(data.data.data);
-      } catch (error) {
-        console.log("SomeThing Wrong");
-      }
+      let userId = JSON.parse(sessionStorage.getItem("AyuhAdminPanel"));
+      await axiosConfig
+        .get(`/admin/viewById/${userId?._id}`)
+        .then((res) => {
+          setAdminData(res.data.admin);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
+
     getNotifications();
   }, []);
 
@@ -56,13 +54,13 @@ const NavbarUser = () => {
         <DropdownToggle tag="a" className="nav-link dropdown-user-link">
           <div className="user-nav d-sm-flex d-none">
             <span className="user-name text-bold-600" color="#fff">
-              {adminimg.name}
+              {adminData?.name}
             </span>
             {/* <span className="user-status">Available</span> */}
           </div>
           <span data-tour="user">
             <img
-              src={adminimg?.adminimg}
+              src={`https://sample.rupioo.com/Images/${adminData?.image}`}
               className="round"
               height="40"
               width="40"

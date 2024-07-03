@@ -49,7 +49,7 @@ export default class AddBlogCate extends Component {
   onChangeHandler = (event) => {
     this.setState({ selectedFile: event.target.files });
     this.setState({ selectedName: event.target.files.name });
-    console.log(event.target.files);
+    // console.log(event.target.files);
   };
   changeHandler1 = (e) => {
     this.setState({ status: e.target.value });
@@ -79,7 +79,6 @@ export default class AddBlogCate extends Component {
     }
     axiosConfig
       .post(`admin/add_blog_category`, data)
-
       .then((response) => {
         console.log(response.data);
 
@@ -188,7 +187,7 @@ export default class AddBlogCate extends Component {
                         strikethrough: {
                           className: "bordered-option-classname",
                         },
-                        code: { className: "bordered-option-classname"},
+                        code: { className: "bordered-option-classname" },
                       },
                       blockType: {
                         className: "bordered-option-classname",
@@ -201,7 +200,7 @@ export default class AddBlogCate extends Component {
                       },
                     }}
                   />
-                  <br/>
+                  <br />
                 </Col>
                 <Col lg="6" md="6" sm="6" className="mb-2">
                   <Label className="mb-1">Status</Label>

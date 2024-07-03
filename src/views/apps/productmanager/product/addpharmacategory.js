@@ -1,61 +1,83 @@
 import React, { useState } from "react";
-import { Row, Col, Card, CardHeader, CardBody, Form, FormGroup, Label, Input, Button, CustomInput } from "reactstrap";
+import {
+  Row,
+  Col,
+  Card,
+  CardHeader,
+  CardBody,
+  Form,
+  FormGroup,
+  Label,
+  Input,
+  Button,
+  CustomInput,
+} from "reactstrap";
 import { useHistory } from "react-router-dom";
 
-
 const AddCategoryForm = () => {
-  const [data, setData] = useState({
-    categoryName: "",
-    image: null,
-    status:'active',
-  });
-
+  // const [data, setData] = useState({
+  //   categoryName: "",
+  //   image: null,
+  //   status: "",
+  // });
+  const [categoryName, setCategoryName] = useState("");
   const history = useHistory();
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setData({ ...data, [name]: value });
-  };
+  // const handleInputChange = (e) => {
+  //   const { name, value } = e.target;
+  //   setCategoryName();
+  //   // setData({ ...data, [name]: value });
+  // };
 
-  const handleImageChange = (e) => {
-    const imageFile = e.target.files[0];
-    setData({ ...data, image: imageFile });
-  };
+  // const handleImageChange = (e) => {
+  //   const imageFile = e.target.files[0];
+  //   setData({ ...data, image: imageFile });
+  // };
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    console.log(data);
+    // console.log(data);
 
-    setData({ categoryName: "", image: null });
+    // setData({ categoryName: "", image: null });
   };
 
-//   const handleBack = () => {
-//     history.goBack();
-//   };
-
   return (
-    <Row>
-      <Col sm="12" md="8" className="mx-auto">
-        <Card>
-          <CardHeader><h1>Add Pharma Category</h1>
-          <Button  onClick={() => history.goBack()}  className=" btn btn-danger float-right">Back</Button></CardHeader>
-          <CardBody>
-            <Form onSubmit={handleSubmit}>
+    <Card>
+      <CardHeader>
+        <h1>Add Pharma Category</h1>
+        <Button
+          onClick={() => history.goBack()}
+          className=" btn btn-danger float-right"
+        >
+          Back
+        </Button>
+      </CardHeader>
+      <CardBody>
+        <Form onSubmit={handleSubmit}>
+          <Row>
+            <Col lg="6" md="6" sm="12">
               <FormGroup>
-                <Label for="categoryName">Category Name:</Label>
+                <Label for="categoryName">
+                  Category Name
+                  <span style={{ color: "red", fontSize: "12px" }}>*</span>
+                </Label>
                 <Input
                   type="text"
                   name="categoryName"
                   id="categoryName"
-                  value={data.categoryName}
-                  onChange={handleInputChange}
-                  placeholder="Enter category name"
+                  value={categoryName}
+                  onChange={(e) => setCategoryName(e.target.value)}
+                  placeholder="Enter Category Name"
                   required
                 />
               </FormGroup>
+            </Col>
+            {/* <Col lg="6" md="6" sm="12">
               <FormGroup>
-                <Label for="image">Image:</Label>
+                <Label for="image">
+                  Image <span style={{ color: "red" }}>*</span>
+                </Label>
                 <Input
                   type="file"
                   name="image"
@@ -65,36 +87,42 @@ const AddCategoryForm = () => {
                   required
                 />
               </FormGroup>
-              <FormGroup row>
-                <Label for="status" sm={2}>Status:</Label>
-                <Col sm={10}>
-                  <CustomInput
-                    type="radio"
-                    id="active"
-                    name="status"
-                    label="Active"
-                    value="active"
-                    checked={data.status === "active"}
-                    onChange={handleInputChange}
-                  />
-                  {''}
-                  <CustomInput
-                    type="radio"
-                    id="inactive"
-                    name="status"
-                    label="Inactive"
-                    value="inactive"
-                    checked={data.status === "inactive"}
-                    onChange={handleInputChange}
-                  />
-                </Col>
-              </FormGroup>
-              <Button color="primary" type="submit">Submit</Button>
-            </Form>
-          </CardBody>
-        </Card>
-      </Col>
-    </Row>
+            </Col> */}
+
+            {/* <Col lg="6" md="6" sm="12" className="mb-2">
+              <Label className="mb-1">Status</Label>
+              <div
+                className="form-label-group"
+                // onChange={(e) => this.changeHandler1(e)}
+              >
+                <input
+                  style={{ marginRight: "3px" }}
+                  type="radio"
+                  name="approvedstatus"
+                  value="Active"
+                  // checked={this.state.status == "Active" ? "true" : "false"}
+                />
+                <span style={{ marginRight: "20px" }}>Active</span>
+
+                <input
+                  style={{ marginRight: "3px" }}
+                  type="radio"
+                  name="status"
+                  value="Inactive"
+                  // checked={this.state.status == "Active" ? "true" : "false"}
+                />
+                <span style={{ marginRight: "3px" }}>Inactive</span>
+              </div>
+            </Col> */}
+            <Col lg="6" md="6" sm="12" className="mt-1">
+              <Button color="primary" type="submit">
+                Submit
+              </Button>
+            </Col>
+          </Row>
+        </Form>
+      </CardBody>
+    </Card>
   );
 };
 

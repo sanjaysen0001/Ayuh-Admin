@@ -9,15 +9,14 @@ import { connect } from "react-redux";
 import { Route } from "react-router-dom";
 import Swal from "sweetalert2";
 
-
 import axiosConfig from "../../../../axiosConfig";
+import swal from "sweetalert";
 class LoginJWT extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       email: "",
       password: "",
-      // token: "",
     };
   }
   handlechange = (e) => {
@@ -27,44 +26,59 @@ class LoginJWT extends React.Component {
 
   handleLogin = async (e) => {
     e.preventDefault();
-    const { email, password } = this.state;
-
-    try {
-      const response = await axiosConfig.post("/admin/login", {
+    await axiosConfig
+      .post("/admin/login", {
         email: this.state.email,
         password: this.state.password,
+      })
+      .then((response) => {
+        console.log(response.data.user);
+        sessionStorage.setItem("ad-token", response.data.user.token);
+        sessionStorage.setItem(
+          "AyuhAdminPanel",
+          JSON.stringify(response.data.user)
+        );
+        swal(`${response?.data.message}`);
+        if (response?.data?.user?.token) {
+          window.location.replace("/");
+        }
+        // this.props.history.push("/");
+      })
+      .catch((err) => {
+        console.log(err);
+        // swal("");
       });
-      console.log(response);
+    // try {
+    //   const response = await axiosConfig.post("/admin/login", {
+    //     email: this.state.email,
+    //     password: this.state.password,
+    //   });
+    //   console.log(response);
+    //   sessionStorage.setItem("ad-token", response.data.token);
+    //   sessionStorage.setItem(
+    //     "AyuhAdminPanel",
+    //     JSON.stringify(response.data.user)
+    //   );
 
-      localStorage.setItem("ad-token", response.data.token);
-      localStorage.setItem("userData", JSON.stringify(response.data.user));
-
-      Swal.fire({
-        icon: "success",
-        title: "Success!",
-        text: "Log In successfully.",
-        confirmButtonColor: "#3085d6",
-        confirmButtonText: "OK",
-      }).then(() => {
-        window.location.replace("/");
-      });
-    } catch (error) {
-      console.error("Login Error:", error);
-      Swal.fire({
-        icon: "error",
-        title: "Oops...",
-        text: "Something went wrong! Please try again later.",
-      });
-    }
+    //   Swal.fire({
+    //     icon: "success",
+    //     title: "Success!",
+    //     text: "Log In successfully.",
+    //     confirmButtonColor: "#3085d6",
+    //     confirmButtonText: "OK",
+    //   }).then(() => {
+    //     window.location.replace("/");
+    //   });
+    // } catch (error) {
+    //   console.error("Login Error:", error);
+    //   Swal.fire({
+    //     icon: "error",
+    //     title: "Oops...",
+    //     text: "Something went wrong! Please try again later.",
+    //   });
+    // }
   };
 
-  // handleLogin = (e) => {
-  //   e.preventDefault();
-  //   localStorage.setItem("ad-token", " response.data.token");
-  //   localStorage.setItem("userId", "response.data.data._id");
-  //   localStorage.setItem("astroId", "response.data.data._id");
-  //   window.location.replace("/#/");
-  // };
   render() {
     return (
       <React.Fragment>

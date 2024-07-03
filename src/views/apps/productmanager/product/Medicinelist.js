@@ -5,7 +5,6 @@ import {
   Input,
   Row,
   Col,
-
   Button,
   UncontrolledDropdown,
   DropdownMenu,
@@ -21,7 +20,6 @@ import { Eye, Edit, Trash2, ChevronDown } from "react-feather";
 import "../../../../assets/scss/plugins/tables/_agGridStyleOverride.scss";
 import "../../../../assets/scss/pages/users.scss";
 import { Route } from "react-router-dom";
-
 
 class Medicinelist extends React.Component {
   state = {
@@ -47,51 +45,51 @@ class Medicinelist extends React.Component {
         // headerCheckboxSelection: true,
       },
 
-      {
-        headerName: "Image",
-        field: "image",
-        filter: false,
-        width: 120,
-        setColumnVisible: false,
-        cellRendererFramework: (params) => {
-          return (
-            <div className="d-flex align-items-center cursor-pointer">
-              {params.data.image.map((i) => (
-                <img
-                  className=" rounded-circle  mr-3"
-                  src={i}
-                  alt="user avatar"
-                  height="40"
-                  width="40"
-                />
-              ))}
-            </div>
-          );
-        },
-      },
+      // {
+      //   headerName: "Image",
+      //   field: "image",
+      //   filter: false,
+      //   width: 120,
+      //   setColumnVisible: false,
+      //   cellRendererFramework: (params) => {
+      //     return (
+      //       <div className="d-flex align-items-center cursor-pointer">
+      //         {params.data.image.map((i) => (
+      //           <img
+      //             className=" rounded-circle  mr-3"
+      //             src={i}
+      //             alt="user avatar"
+      //             height="40"
+      //             width="40"
+      //           />
+      //         ))}
+      //       </div>
+      //     );
+      //   },
+      // },
 
       {
         headerName: "Medicine Name",
-        field: "MedicineName",
+        field: "medicinename",
         filter: true,
         width: 180,
         cellRendererFramework: (params) => {
           return (
             <div>
-              <span>{params.data.productname}</span>
+              <span>{params.data?.medicinename}</span>
             </div>
           );
         },
       },
       {
         headerName: "Medicine Type",
-        field: "quantity",
+        field: "medicinetype",
         filter: true,
         width: 180,
         cellRendererFramework: (params) => {
           return (
             <div className="d-flex align-items-center cursor-pointer">
-              <span>{params.data.category?.name}</span>
+              <span>{params.data?.medicinetype}</span>
             </div>
           );
         },
@@ -104,48 +102,48 @@ class Medicinelist extends React.Component {
         cellRendererFramework: (params) => {
           return (
             <div>
-              <span>{params.data.price}</span>
+              <span>{params.data?.price}</span>
             </div>
           );
         },
       },
       {
         headerName: "Medicine Detail",
-        field: "desc",
+        field: "medicinedetails",
         filter: true,
         width: 180,
         cellRendererFramework: (params) => {
           return (
             <div>
-              <span>{ReactHtmlParser(params.data.desc)}</span>
+              <span>{params.data.medicinedetails}</span>
             </div>
           );
         },
       },
       {
         headerName: "Unit",
-        field: "expirydate",
+        field: "unit",
         filter: true,
         width: 100,
         cellRendererFramework: (params) => {
           console.log(params);
           return (
             <div>
-              <span>{params.data?.limit}</span>
+              <span>{params.data?.unit}</span>
             </div>
           );
         },
       },
       {
         headerName: "Expiry Date",
-        field: "expirydate",
+        field: "expiredate",
         filter: true,
         width: 150,
         cellRendererFramework: (params) => {
           console.log(params);
           return (
             <div>
-              <span>{params.data?.limit}</span>
+              <span>{params.data?.expiredate}</span>
             </div>
           );
         },
@@ -165,7 +163,7 @@ class Medicinelist extends React.Component {
       //   },
       // },
 
-    {
+      {
         headerName: "Status",
         field: "status",
         filter: true,
@@ -198,7 +196,7 @@ class Medicinelist extends React.Component {
                     color="green"
                     onClick={() =>
                       history.push(
-                        `/app/productmanager/product/viewProduct/${params.data._id}`
+                        `/PharmaManagement/Medicine/ViewMedicine/${params.data._id}`
                       )
                     }
                   />
@@ -212,7 +210,7 @@ class Medicinelist extends React.Component {
                     color="blue"
                     onClick={() =>
                       history.push(
-                        `/app/productmanager/product/editProduct/${params.data._id}`
+                        `/PharmaManagement/Medicine/EditMedicine/${params.data._id}`
                       )
                     }
                   />
@@ -235,10 +233,8 @@ class Medicinelist extends React.Component {
     ],
   };
   async componentDidMount() {
-    // let { id } = this.props.match.params;
-
-    await axiosConfig.get(`/admin/getProduct`).then((response) => {
-      let rowData = response.data.data;
+    await axiosConfig.get("/medicine/fetchall").then((response) => {
+      let rowData = response.data;
       console.log(rowData);
       this.setState({ rowData });
     });
@@ -294,7 +290,7 @@ class Medicinelist extends React.Component {
                 <Row className="m-2">
                   <Col>
                     <h1 sm="6" className="float-left">
-                    Medicine List
+                      Medicine List
                     </h1>
                   </Col>
                   <Col>
@@ -303,9 +299,7 @@ class Medicinelist extends React.Component {
                         <Button
                           className=" btn btn-success float-right"
                           onClick={() =>
-                            history.push(
-                              "/product/addmedicineform"
-                            )
+                            history.push("/product/addmedicineform")
                           }
                         >
                           Add

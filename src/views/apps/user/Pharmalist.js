@@ -10,12 +10,14 @@ import {
   DropdownMenu,
   DropdownItem,
   DropdownToggle,
-  Form, FormGroup, Label,
+  Form,
+  FormGroup,
+  Label,
 } from "reactstrap";
 import axiosConfig from "../../../axiosConfig";
 import { ContextLayout } from "../../../utility/context/Layout";
 import { AgGridReact } from "ag-grid-react";
-import {  Eye, Edit,Trash2, ChevronDown } from "react-feather";
+import { Eye, Edit, Trash2, ChevronDown } from "react-feather";
 import "../../../assets/scss/plugins/tables/_agGridStyleOverride.scss";
 import "../../../assets/scss/pages/users.scss";
 import { Route } from "react-router-dom";
@@ -27,7 +29,7 @@ import Switch from "react-switch";
 class Pharmalist extends React.Component {
   state = {
     rowData: [],
-    isActive: false ,
+    isActive: false,
     paginationPageSize: 20,
     currenPageSize: "",
     getPageSize: "",
@@ -106,7 +108,7 @@ class Pharmalist extends React.Component {
         cellRendererFramework: (params) => {
           return (
             <div className="d-flex align-items-center cursor-pointer">
-            <span>{params.data.mobileNumber}</span>
+              <span>{params.data.mobileNumber}</span>
             </div>
           );
         },
@@ -133,7 +135,7 @@ class Pharmalist extends React.Component {
         cellRendererFramework: (params) => {
           return (
             <div>
-              <span>{params?.data?.createdAt.split('T')[0]}</span>
+              <span>{params?.data?.createdAt.split("T")[0]}</span>
             </div>
           );
         },
@@ -168,7 +170,7 @@ class Pharmalist extends React.Component {
               <Route
                 render={({ history }) => (
                   <Eye
-                  className="mr-50"
+                    className="mr-50"
                     size="25px"
                     color="green"
                     onClick={() =>
@@ -207,14 +209,14 @@ class Pharmalist extends React.Component {
   };
 
   toggleSwitch() {
-    this.setState(prevState => ({
-      isActive: !prevState.isActive // toggle the state
+    this.setState((prevState) => ({
+      isActive: !prevState.isActive, // toggle the state
     }));
   }
 
   handleChange = (status) => {
-    console.log(status)
-    debugger
+    console.log(status);
+    debugger;
     this.setState({ status }, () => {
       this.updateStatus();
     });
@@ -225,9 +227,9 @@ class Pharmalist extends React.Component {
 
     try {
       await axiosConfig.put(`/admin/pharma-update-status/${id}`, { status });
-      console.log('Status updated successfully');
+      console.log("Status updated successfully");
     } catch (error) {
-      console.error('Error updating status:', error);
+      console.error("Error updating status:", error);
     }
   };
   async componentDidMount() {
@@ -307,7 +309,7 @@ class Pharmalist extends React.Component {
                 <Row className="m-2">
                   <Col>
                     <h1 sm="6" className="float-left">
-                    Pharma List
+                      Pharma List
                     </h1>
                   </Col>
                   {/*

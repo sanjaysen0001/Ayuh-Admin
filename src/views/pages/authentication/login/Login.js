@@ -18,7 +18,6 @@ import "../../../../assets/scss/pages/authentication.scss";
 // import LoginFirebase from "./LoginFirebase";
 import LoginJWT from "./LoginJWT";
 
-
 class Login extends React.Component {
   state = {
     activeTab: "1",
