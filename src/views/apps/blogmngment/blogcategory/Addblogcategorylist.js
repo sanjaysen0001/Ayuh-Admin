@@ -14,7 +14,7 @@ import {
 import axiosConfig from "../../../../axiosConfig";
 import { ContextLayout } from "../../../../utility/context/Layout";
 import { AgGridReact } from "ag-grid-react";
-import {  Edit, Trash2, ChevronDown } from "react-feather";
+import { Edit, Trash2, ChevronDown } from "react-feather";
 import "../../../../assets/scss/plugins/tables/_agGridStyleOverride.scss";
 import "../../../../assets/scss/pages/users.scss";
 import { Route } from "react-router-dom";
@@ -202,7 +202,7 @@ class Addblogcategorylist extends React.Component {
               <Row className="m-2">
                 <Col>
                   <h1 sm="6" className="float-left">
-                  Add Blog List
+                    Blog List
                   </h1>
                 </Col>
                 <Col>
@@ -216,7 +216,7 @@ class Addblogcategorylist extends React.Component {
                           )
                         }
                       >
-                        Add blog Category
+                        Add blog
                       </Button>
                     )}
                   />

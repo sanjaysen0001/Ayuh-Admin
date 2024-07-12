@@ -39,7 +39,6 @@ class EditDoctor extends React.Component {
     axiosConfig
       .get(`/doctorPanel/viewById/${id}`)
       .then((response) => {
-        // console.log(response.data.data);
         const {
           fullname,
           email,

@@ -27,63 +27,55 @@ export default class AddBlogCate extends Component {
     super(props);
     this.state = {
       name: "",
-      desc: "",
+      description: "",
       editorState: EditorState.createEmpty(),
       status: "",
-      img: "",
-      selectedFile: undefined,
-      selectedName: "",
+      images: null,
     };
   }
   onEditorStateChange = (editorState) => {
     this.setState({
       editorState,
-      desc: draftToHtml(convertToRaw(editorState.getCurrentContent())),
+      description: draftToHtml(convertToRaw(editorState.getCurrentContent())),
     });
   };
   onChangeHandler = (event) => {
-    this.setState({ selectedFile: event.target.files[0] });
-    this.setState({ selectedName: event.target.files[0].name });
+    this.setState({ images: event.target.files[0] });
     console.log(event.target.files[0]);
   };
-  onChangeHandler = (event) => {
-    this.setState({ selectedFile: event.target.files });
-    this.setState({ selectedName: event.target.files.name });
-    // console.log(event.target.files);
-  };
+
   changeHandler1 = (e) => {
     this.setState({ status: e.target.value });
   };
 
   changeHandler = (e) => {
-    this.setState({ [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    console.log(name, value);
+    this.setState({ [name]: value });
   };
 
   submitHandler = (e) => {
     e.preventDefault();
     const data = new FormData();
     data.append("name", this.state.name);
-    data.append("desc", this.state.desc);
+    data.append("description", this.state.description);
     data.append("status", this.state.status);
 
-    for (const file of this.state.selectedFile) {
-      if (this.state.selectedFile !== null) {
-        data.append("img", file, file.name);
-      }
+    if (this.state.images !== null) {
+      data.append("image", this.state.images);
     }
-    for (var value of data.values()) {
-      console.log(value);
+
+    for (var [keys, values] of data.entries()) {
+      console.log(keys, values);
     }
-    for (var key of data.keys()) {
-      console.log(key);
-    }
+
     axiosConfig
-      .post(`admin/add_blog_category`, data)
+      .post(`/blog-cate/add-blog-cate`, data)
       .then((response) => {
         console.log(response.data);
 
         swal("Success!", "Submitted SuccessFull!", "success");
-        this.props.history.push("/app/blogmngment/blogcategory/blogCateList");
+        this.props.history.goBack();
       })
       .catch((error) => {
         console.log(error);
@@ -122,7 +114,7 @@ export default class AddBlogCate extends Component {
               <Route
                 render={({ history }) => (
                   <Button
-                    className=" btn btn-success float-right"
+                    className=" btn btn-danger float-right"
                     onClick={() =>
                       history.push("/app/blogmngment/blogCategory/blogCateList")
                     }
@@ -137,12 +129,12 @@ export default class AddBlogCate extends Component {
             <Form className="m-1" onSubmit={this.submitHandler}>
               <Row>
                 <Col lg="6" md="6" sm="6" className="mb-2">
-                  <Label>Name</Label>
+                  <Label>Category Name</Label>
                   <Input
                     required
                     type="text"
                     name="name"
-                    placeholder=""
+                    placeholder="Category Name"
                     value={this.state.name}
                     onChange={this.changeHandler}
                   ></Input>
@@ -153,6 +145,7 @@ export default class AddBlogCate extends Component {
                   <Label>Image</Label>
                   <CustomInput
                     type="file"
+                    name="image"
                     // multiple
                     onChange={this.onChangeHandler}
                   />
@@ -225,8 +218,6 @@ export default class AddBlogCate extends Component {
                     <span style={{ marginRight: "3px" }}>Inactive</span>
                   </div>
                 </Col>
-              </Row>
-              <Row>
                 <Col lg="6" md="6" sm="6" className="mb-2">
                   <Button.Ripple
                     color="primary"
@@ -237,6 +228,9 @@ export default class AddBlogCate extends Component {
                   </Button.Ripple>
                 </Col>
               </Row>
+              {/* <Row>
+               
+              </Row> */}
             </Form>
           </CardBody>
         </Card>

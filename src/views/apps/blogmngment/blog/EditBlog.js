@@ -26,17 +26,19 @@ export default class EditBlog extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      status: "",
-      blog_title: "",
-      desc: "",
-      blogcategory: "",
-      blogImg: "",
-      editorState: EditorState.createEmpty(),
-      selectedFile: undefined,
-      selectedName: "",
+      formData: {
+        status: "",
+        blog_title: "",
+        desc: "",
+        blogcategory: "",
+        blogImg: "",
+        editorState: EditorState.createEmpty(),
+        selectedFile: undefined,
+        selectedName: "",
+      },
     };
     this.state = {
-      categoryB: [],
+      categoryB: {},
     };
   }
   onEditorStateChange = (editorState) => {
@@ -45,30 +47,15 @@ export default class EditBlog extends Component {
       desc: draftToHtml(convertToRaw(editorState.getCurrentContent())),
     });
   };
-  // componentDidMount() {
   async componentDidMount() {
-    axiosConfig
-      .get("admin/all_blog_category")
-      .then((response) => {
-        console.log(response);
-        this.setState({
-          categoryB: response.data.data,
-        });
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-
+    const blogId = this.props.match.params.id;
     let { id } = this.props.match.params;
     axiosConfig
-      .get(`admin/viewoneBlog/${id}`)
+      .get(`/admin-blog/viewByIdBlog/${blogId}`)
       .then((response) => {
-        console.log(response);
+        console.log(response?.data?.blog);
         this.setState({
-          blog_title: response.data.data.blog_title,
-          desc: response.data.data.desc,
-          blogImg: response?.data?.data?.blogImg,
-          blogcategory: response?.data?.data?.blogcategory?.name,
+          formData: response.data.blog,
         });
       })
       .catch((error) => {
@@ -174,9 +161,9 @@ export default class EditBlog extends Component {
                   <Input
                     required
                     type="text"
-                    name="blog_title"
+                    name="blogName"
                     placeholder=""
-                    value={this.state.blog_title}
+                    value={this.state.formData.blogName}
                     onChange={this.changeHandler}
                   ></Input>
                 </Col>
@@ -190,7 +177,7 @@ export default class EditBlog extends Component {
                   />
                 </Col>
 
-                <Col lg="6" md="6" sm="6" className="mb-2">
+                {/* <Col lg="6" md="6" sm="6" className="mb-2">
                   <Label>Blog Category</Label>
 
                   <CustomInput
@@ -207,7 +194,7 @@ export default class EditBlog extends Component {
                       </option>
                     ))}
                   </CustomInput>
-                </Col>
+                </Col> */}
                 <Col lg="4" md="4" sm="4" className="mb-2">
                   <img
                     src={this.state.blogImg}

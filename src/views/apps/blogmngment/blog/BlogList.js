@@ -14,7 +14,7 @@ import {
 import axiosConfig from "../../../../axiosConfig";
 import { ContextLayout } from "../../../../utility/context/Layout";
 import { AgGridReact } from "ag-grid-react";
-import {  Edit, Trash2, ChevronDown } from "react-feather";
+import { Edit, Trash2, ChevronDown } from "react-feather";
 //import classnames from "classnames";
 // import { history } from "../../../../history";
 import "../../../../assets/scss/plugins/tables/_agGridStyleOverride.scss";
@@ -54,7 +54,7 @@ class BlogList extends React.Component {
         cellRendererFramework: (params) => {
           return (
             <div className="d-flex align-items-center cursor-pointer">
-              <span>{params.data.blog_title}</span>
+              <span>{params.data.blogName}</span>
             </div>
           );
         },
@@ -68,63 +68,60 @@ class BlogList extends React.Component {
         cellRendererFramework: (params) => {
           return (
             <div className="d-flex align-items-center cursor-pointer">
-              {params.data.blogImg.map((i) => (
-                <img
-                  className=" rounded-circle  mr-3"
-                  src={i}
-                  alt="user avatar"
-                  height="40"
-                  width="40"
-                />
-              ))}
+              <img
+                className=" rounded-circle  mr-3"
+                src={`https://sample.rupioo.com/Images/${params.data.image}`}
+                alt="user avatar"
+                height="40"
+                width="40"
+              />
             </div>
           );
         },
       },
       {
         headerName: "Blog Category",
-        field: "blogcategory",
+        field: "blogCategory",
         // filter: true,
-        width: 250,
+        width: 190,
         cellRendererFramework: (params) => {
           return (
             <div className="d-flex align-items-center cursor-pointer">
-              <span>{params.data.blogcategory?.name}</span>
+              <span>{params.data.blogCategory}</span>
             </div>
           );
         },
       },
-      {
-        headerName: "Status",
-        field: "status",
-        filter: true,
-        width: 140,
-        cellRendererFramework: (params) => {
-          return params.data.status === "Active" ? (
-            <div className="badge badge-pill badge-success">
-              {params.data.status}
-            </div>
-          ) : params.value === "Deactive" ? (
-            <div className="badge badge-pill badge-warning">
-              {params.data.status}
-            </div>
-          ) : null;
-        },
-      },
-
       {
         headerName: "Description",
-        field: "desc",
+        field: "description",
         // filter: true,
-        width: 500,
+        width: 180,
         cellRendererFramework: (params) => {
           return (
             <div className="d-flex align-items-center cursor-pointer">
-              <span>{ReactHtmlParser(params.data.desc)}</span>
+              <span>{ReactHtmlParser(params.data.description)}</span>
             </div>
           );
         },
       },
+      // {
+      //   headerName: "Status",
+      //   field: "status",
+      //   filter: true,
+      //   width: 140,
+      //   cellRendererFramework: (params) => {
+      //     return params.data.status === "Active" ? (
+      //       <div className="badge badge-pill badge-success">
+      //         {params.data.status}
+      //       </div>
+      //     ) : params.value === "Deactive" ? (
+      //       <div className="badge badge-pill badge-warning">
+      //         {params.data.status}
+      //       </div>
+      //     ) : null;
+      //   },
+      // },
 
       {
         headerName: "Actions",
@@ -166,8 +163,8 @@ class BlogList extends React.Component {
   };
 
   async componentDidMount() {
-    await axiosConfig.get("admin/getBlog").then((response) => {
-      const rowData = response.data.data;
+    await axiosConfig.get("/admin-blog/viewBlog").then((response) => {
+      const rowData = response.data?.blog;
       console.log(rowData);
       this.setState({ rowData });
     });

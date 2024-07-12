@@ -14,11 +14,12 @@ import {
 import axiosConfig from "../../../../axiosConfig";
 import { ContextLayout } from "../../../../utility/context/Layout";
 import { AgGridReact } from "ag-grid-react";
-import {  Edit, Trash2, ChevronDown } from "react-feather";
+import { Edit, Trash2, ChevronDown } from "react-feather";
 import "../../../../assets/scss/plugins/tables/_agGridStyleOverride.scss";
 import "../../../../assets/scss/pages/users.scss";
 import { Route } from "react-router-dom";
 import ReactHtmlParser from "react-html-parser";
+import swal from "sweetalert";
 class Blogcategorylist extends React.Component {
   state = {
     rowData: [],
@@ -47,7 +48,7 @@ class Blogcategorylist extends React.Component {
         headerName: "Name",
         field: "name",
         // filter: true,
-        width: 250,
+        width: 150,
         cellRendererFramework: (params) => {
           return (
             <div className="d-flex align-items-center cursor-pointer">
@@ -57,7 +58,7 @@ class Blogcategorylist extends React.Component {
         },
       },
       {
-        headerName: "Blog Category Image",
+        headerName: "Blog Image",
         field: "img",
         filter: false,
         width: 200,
@@ -65,28 +66,24 @@ class Blogcategorylist extends React.Component {
         cellRendererFramework: (params) => {
           return (
             <div className="d-flex align-items-center cursor-pointer">
-              {params.data.img.map((i) => (
-                <img
-                  className=" rounded-circle  mr-3"
-                  src={i}
-                  alt="user avatar"
-                  height="40"
-                  width="40"
-                />
-              ))}
+              <img
+                src={`https://sample.rupioo.com/Images/${params.data.image}`}
+                alt="blog category image"
+                className="img-fluid"
+              />
             </div>
           );
         },
       },
       {
         headerName: "Description",
-        field: "desc",
+        field: "description",
         // filter: true,
-        width: 500,
+        width: 240,
         cellRendererFramework: (params) => {
           return (
             <div className="d-flex align-items-center cursor-pointer">
-              <span>{ReactHtmlParser(params.data.desc)}</span>
+              <span>{ReactHtmlParser(params.data.description)}</span>
             </div>
           );
         },
@@ -97,14 +94,14 @@ class Blogcategorylist extends React.Component {
         // filter: true,
         width: 130,
         cellRendererFramework: (params) => {
-          return params.value === "Active" ? (
+          let status = params.data.status.toLowerCase();
+          console.log(status);
+          return status === "active" ? (
             <div className="badge badge-pill badge-success">
               {params.data.status}
             </div>
-          ) : params.value === "Deactive" ? (
-            <div className="badge badge-pill badge-warning">
-              {params.data.status}
-            </div>
+          ) : status === "pending" ? (
+            <div className="">{params.data.status}</div>
           ) : null;
         },
       },
@@ -136,9 +133,7 @@ class Blogcategorylist extends React.Component {
                 size="25px"
                 color="red"
                 onClick={() => {
-                  let selectedData = this.gridApi.getSelectedRows();
                   this.runthisfunction(params.data._id);
-                  this.gridApi.updateRowData({ remove: selectedData });
                 }}
               />
             </div>
@@ -148,23 +143,34 @@ class Blogcategorylist extends React.Component {
     ],
   };
 
-  // async componentDidMount() {
-  //   await axiosConfig.get("admin/all_blog_category").then((response) => {
-  //     const rowData = response.data.data;
-  //     console.log(rowData);
-  //     this.setState({ rowData });
-  //   });
-  // }
-  async runthisfunction(id) {
-    console.log(id);
-    await axiosConfig.get(`admin/dlt_blog_cat/${id}`).then(
-      (response) => {
-        console.log(response);
+  async componentDidMount() {
+    await axiosConfig.get("/blog-cate/view-blog-cate").then((response) => {
+      this.setState({ rowData: response?.data?.AdminBlog.reverse() });
+    });
+  }
+
+  runthisfunction(id) {
+    swal("Warning", "Sure You Want to Delete it", {
+      buttons: {
+        cancel: "cancel",
+        catch: { text: "Delete ", value: "delete" },
       },
-      (error) => {
-        console.log(error);
+    }).then((value) => {
+      switch (value) {
+        case "delete":
+          axiosConfig.delete(`/blog-cate/delete-blog-cate/${id}`).then(
+            (response) => {
+              //   console.log(response);
+              this.componentDidMount();
+            },
+            (error) => {
+              console.log(error);
+            }
+          );
+          break;
+        default:
       }
-    );
+    });
   }
   onGridReady = (params) => {
     this.gridApi = params.api;

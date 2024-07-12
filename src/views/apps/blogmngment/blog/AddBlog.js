@@ -64,14 +64,14 @@ export default class AddBlog extends Component {
   };
   onChangeHandler = (event) => {
     this.setState({ selectedFile: event.target.files[0] });
-    this.setState({ selectedName: event.target.files[0].name });
-    console.log(event.target.files[0]);
+    // this.setState({ selectedName: event.target.files[0].name });
+    // console.log(event.target.files[0]);
   };
-  onChangeHandler = (event) => {
-    this.setState({ selectedFile: event.target.files });
-    this.setState({ selectedName: event.target.files.name });
-    console.log(event.target.files);
-  };
+  // onChangeHandler = (event) => {
+  //   this.setState({ selectedFile: event.target.files });
+  //   this.setState({ selectedName: event.target.files.name });
+  //   console.log(event.target.files);
+  // };
   changeHandler1 = (e) => {
     this.setState({ status: e.target.value });
   };
@@ -112,7 +112,7 @@ export default class AddBlog extends Component {
       console.log(key);
     }
     axiosConfig
-      .post(`admin/addBlog`, data)
+      .post(`/admin-blog/addBlog`, data)
 
       .then((response) => {
         console.log(response.data);
@@ -154,7 +154,7 @@ export default class AddBlog extends Component {
               <Route
                 render={({ history }) => (
                   <Button
-                    className=" btn btn-success float-right"
+                    className=" btn btn-danger float-right"
                     onClick={() =>
                       history.push("/app/blogmngment/blog/blogList")
                     }
@@ -168,7 +168,7 @@ export default class AddBlog extends Component {
           <CardBody>
             <Form className="m-1" onSubmit={this.submitHandler}>
               <Row>
-                <Col lg="6" md="6" sm="6" className="mb-2">
+                <Col lg="4" md="4" sm="4" className="mb-2">
                   <Label>Title</Label>
                   <Input
                     required
@@ -189,7 +189,7 @@ export default class AddBlog extends Component {
                   />
                 </Col>
 
-                <Col lg="6" md="6" sm="6" className="mb-2">
+                <Col lg="4" md="4" sm="4" className="mb-2">
                   <Label>Blog Category</Label>
 
                   <CustomInput

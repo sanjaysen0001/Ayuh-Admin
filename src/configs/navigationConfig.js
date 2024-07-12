@@ -445,12 +445,13 @@ const navigationConfig = [
         navLink: "/Blogmanagement/Category-list",
       },
       {
-        id: "add blogs ",
-        title: "Add Blogs List",
+        id: "blogs ",
+        title: "Blogs List",
         type: "item",
         icon: <Icon.List size={12} />,
         permissions: ["admin", "editor"],
-        navLink: "/Blogmanagement/Add-blog-list",
+        // navLink: "/Blogmanagement/Add-blog-list",
+        navLink: "/app/blogmngment/blog/blogList",
       },
       {
         id: "comments ",

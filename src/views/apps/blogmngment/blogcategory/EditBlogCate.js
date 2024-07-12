@@ -46,29 +46,18 @@ export default class EditBlogCate extends Component {
     });
   };
   async componentDidMount() {
-    axiosConfig
-      .get("admin/all_blog_category")
-      .then((response) => {
-        console.log(response);
-        this.setState({
-          categoryB: response.data.data,
-        });
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-
     let { id } = this.props.match.params;
+    console.log(id);
     axiosConfig
-      .get(`admin/getone_blog_Cat/${id}`)
+      .get(`/blog-cate/view-blog-cate/${id}`)
       .then((response) => {
         console.log(response);
-        this.setState({
-          name: response.data.data.name,
-          desc: response.data.data.desc,
-          img: response.data.data.img,
-          status: response.data.data.status,
-        });
+        // this.setState({
+        //   name: response.data.data.name,
+        //   desc: response.data.data.desc,
+        //   img: response.data.data.img,
+        //   status: response.data.data.status,
+        // });
       })
       .catch((error) => {
         console.log(error);
@@ -112,13 +101,13 @@ export default class EditBlogCate extends Component {
     }
     let { id } = this.props.match.params;
     axiosConfig
-      .post(`admin/edit_blog_cat/${id}`, data)
+      .put(`/blog-cate/update-blog-cate/${id}`, data)
 
       .then((response) => {
         console.log(response.data);
 
         swal("Success!", "Submitted SuccessFull!", "success");
-        this.props.history.push("/app/blogmngment/blogCategory/blogCateList");
+        // this.props.history.push("/app/blogmngment/blogCategory/blogCateList");
       })
       .catch((error) => {
         console.log(error);

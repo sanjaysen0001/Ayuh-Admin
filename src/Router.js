@@ -76,13 +76,13 @@ const Viewacceptlist = lazy(() =>
 );
 const Viewcancelled = lazy(() => import("./views/apps/user/Viewcancelled.js"));
 const Viewprescription = lazy(() =>
-  import("./views/apps/user/Viewprescription.js")
+  import("./views/apps/user/Viewprescription")
 );
 const Drsuggestedcategory = lazy(() =>
-  import("./views/apps/user/Drsuggestedcategory.js")
+  import("./views/apps/user/Drsuggestedcategory")
 );
 const Drsuggestedsubcategory = lazy(() =>
-  import("./views/apps/user/Drsuggestedsubcategory.js")
+  import("./views/apps/user/Drsuggestedsubcategory")
 );
 const Viewdisease = lazy(() => import("./views/apps/user/Viewdisease.js"));
 const Viewsubcategory = lazy(() =>
@@ -603,13 +603,13 @@ const BlogCateList = lazy(() =>
   import("./views/apps/blogmngment/blogcategory/BlogCateList")
 );
 const Blogcategorylist = lazy(() =>
-  import("./views/apps/blogmngment/blogcategory/Blogcategorylist.js")
+  import("./views/apps/blogmngment/blogcategory/Blogcategorylist")
 );
 const Addblogcategorylist = lazy(() =>
-  import("./views/apps/blogmngment/blogcategory/Addblogcategorylist.js")
+  import("./views/apps/blogmngment/blogcategory/Addblogcategorylist")
 );
 const Commentlist = lazy(() =>
-  import("./views/apps/blogmngment/blogcategory/Commentlist.js")
+  import("./views/apps/blogmngment/blogcategory/Commentlist")
 );
 const AddBlogCate = lazy(() =>
   import("./views/apps/blogmngment/blogcategory/AddBlogCate")
@@ -887,10 +887,9 @@ const AppRoute = connect(mapStateToProps)(RouteConfig);
 class AppRouter extends React.Component {
   componentDidMount() {
     let token = sessionStorage.getItem("ad-token");
-    let AyuhAdminPanel = JSON.parse(sessionStorage.getItem("AyuhAdminPanel"));
-    console.log(AyuhAdminPanel);
-    // sessionStorage.clear();
+    // let AyuhAdminPanel = JSON.parse(sessionStorage.getItem("AyuhAdminPanel"));
     if (token === undefined || token === null) {
+      sessionStorage.clear();
       history.push("/#/pages/login");
 
       // window.location.replace("/#/pages/login");

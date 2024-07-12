@@ -18,36 +18,23 @@ export class Editdrprediction extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      fullname: "",
-      email: "",
-      mobile: "",
-      password: "",
-      cnfmPassword: "",
-      userimg: "",
-      selectedName: "",
-      selectedFile: null,
+      formData: {
+        doctorName: "",
+        patientName: "",
+        diseasesType: "",
+        prescription: "",
+        status: "", // Assuming this is related to radio button selection
+      },
     };
   }
 
-  onChangeHandler = (event) => {
-    this.setState({ selectedFile: event.target.files[0] });
-    this.setState({ selectedName: event.target.files[0].name });
-    console.log(event.target.files[0]);
-  };
-
   componentDidMount() {
-    console.log(this.props.match.params);
     let { id } = this.props.match.params;
     axiosConfig
-      .get(`/user/viewoneuser/${id}`)
+      .get(`/adminPes/viewByIdAdminPres/${id}`)
       .then((response) => {
-        console.log(response);
-        this.setState({
-          fullname: response.data.data.fullname,
-          email: response.data.data.email,
-          mobile: response.data.data.mobile,
-          userimg: response.data.userimg,
-        });
+        // console.log(response.data.data);
+        this.setState({ formData: response.data.data });
       })
       .catch((error) => {
         console.log(error);
@@ -55,37 +42,50 @@ export class Editdrprediction extends Component {
   }
 
   changeHandler1 = (e) => {
-    this.setState({ status: e.target.value });
+    const { value } = e.target;
+    this.setState((prevState) => ({
+      formData: {
+        ...prevState.formData,
+        status: value,
+      },
+    }));
   };
+
   changeHandler = (e) => {
-    this.setState({ [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    this.setState((prevState) => ({
+      formData: {
+        ...prevState.formData,
+        [name]: value,
+      },
+    }));
+    // this.setState((formData)=>{ ...formData, [name]: value });
   };
 
   submitHandler = (e) => {
     e.preventDefault();
-    console.log(this.state);
-    const data = new FormData();
+    // console.log(this.state);
+    // const data = new FormData();
 
-    data.append("fullname", this.state.fullname);
-    data.append("email", this.state.email);
-    data.append("status", this.state.status);
-    if (this.state.selectedFile !== null) {
-      data.append("userimg", this.state.selectedFile, this.state.selectedName);
-    }
+    // data.append("fullname", this.state.fullname);
+    // data.append("email", this.state.email);
+    // data.append("status", this.state.status);
+    // if (this.state.selectedFile !== null) {
+    //   data.append("userimg", this.state.selectedFile, this.state.selectedName);
+    // }
 
-    for (var value of data.values()) {
-      console.log(value);
-    }
-    for (var key of data.keys()) {
-      console.log(key);
-    }
+    // for (var value of data.values()) {
+    //   console.log(value);
+    // }
+    // for (var key of data.keys()) {
+    //   console.log(key);
+    // }
     let { id } = this.props.match.params;
     axiosConfig
-      .post(`/user/myprofile/${id}`, data)
+      .put(`/adminPes/updateAdminPres/${id}`, this.state.formData)
       .then((response) => {
-        console.log(response.data);
-        swal("Success!", "Submitted SuccessFull!", "success");
-        this.props.history.push("/app/user/userList");
+        // swal("Success!", "Submitted SuccessFull!", "success");
+        this.props.history.goBack();
       })
       .catch((error) => {
         console.log(error);
@@ -108,7 +108,7 @@ export class Editdrprediction extends Component {
               </h1>
             </Col>
             <Col>
-            <Route
+              <Route
                 render={({ history }) => (
                   <Button
                     className=" btn btn-danger float-right"
@@ -128,21 +128,21 @@ export class Editdrprediction extends Component {
                   <Input
                     required
                     type="text"
-                    name="fullname"
-                    placeholder="Enter First Name"
-                    value={'mohit'}
-                    // onChange={this.changeHandler}
+                    name="doctorName"
+                    placeholder="Enter Doctor Name"
+                    value={this.state.formData?.doctorName}
+                    onChange={this.changeHandler}
                   ></Input>
                 </Col>
                 <Col lg="6" md="6" sm="6" className="mb-2">
                   <Label>Patient Name</Label>
                   <Input
                     required
-                    type="email"
-                    name="email"
-                    placeholder="Enter Last Name"
-                    value={'rohit'}
-                    // onChange={this.changeHandler}
+                    type="text"
+                    name="patientName"
+                    placeholder="Enter Patient Name"
+                    value={this.state.formData?.patientName}
+                    onChange={this.changeHandler}
                   ></Input>
                 </Col>
 
@@ -151,26 +151,26 @@ export class Editdrprediction extends Component {
                   <Input
                     required
                     type="text"
-                    name="mobile"
-                    placeholder="Mobile No."
-                    value={'typhoid'}
+                    name="diseasesType"
+                    placeholder="diseasesType"
+                    value={this.state.formData?.dieseases}
                     onChange={this.changeHandler}
                   ></Input>
                 </Col>
-              
+
                 <Col lg="6" md="6" sm="6" className="mb-2">
                   <Label>Prescription </Label>
-                    <Input
-                      required
-                      type="text"
-                      name="sortorder"
-                      placeholder=""
-                      value={''}
-                      onChange={this.changeHandler}>
-                    </Input>
+                  <Input
+                    required
+                    type="text"
+                    name="Prescription"
+                    placeholder="Prescription"
+                    value={this.state.formData?.prescription}
+                    onChange={this.changeHandler}
+                  ></Input>
                 </Col>
-                </Row>
-                <Col lg="6" md="6" sm="6" className="mb-2">
+              </Row>
+              <Col lg="6" md="6" sm="6" className="mb-2">
                 <Label className="mb-1">Status</Label>
                 <div
                   className="form-label-group"
@@ -181,21 +181,21 @@ export class Editdrprediction extends Component {
                     type="radio"
                     name="status"
                     value="Active"
+                    checked={this.state.formData.status === "Active"}
                   />
                   <span style={{ marginRight: "20px" }}>Active</span>
-  
+
                   <input
                     style={{ marginRight: "3px" }}
                     type="radio"
                     name="status"
-                    value="Inactive"
+                    value="Deactive"
+                    checked={this.state.formData.status === "Deactive"}
                   />
-                  <span style={{ marginRight: "3px" }}>Inactive</span>
+                  <span style={{ marginRight: "3px" }}>Deactive</span>
                 </div>
               </Col>
-           
-              
-             
+
               <Row>
                 <Col lg="6" md="6" sm="6" className="mb-2">
                   <Button.Ripple
